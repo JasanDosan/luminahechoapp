@@ -144,7 +144,14 @@
     .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease}
     .slide.is-active{opacity:1;animation:kenburns 7s linear both}
     @keyframes kenburns{from{transform:scale(1.12) translateY(1.5%)}to{transform:scale(1) translateY(0)}}
-    .viewfinder{position:absolute;inset:0;pointer-events:none;color:#F5EEE2;text-shadow:0 1px 6px rgba(0,0,0,.55)}
+    .portal-canvas{position:absolute;inset:0;width:100%;height:100%;display:none;animation:weave .5s steps(2) infinite}
+    .portal.zooming .portal-canvas{display:block}
+    .portal.zooming .slide{visibility:hidden}
+    @keyframes weave{50%{transform:translate(.4px,-.5px)}}
+    .portal::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 50%,rgba(4,10,12,.6) 100%)}
+    .vf-flicker{position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(255,226,180,.07);mix-blend-mode:screen;animation:flicker 3.4s steps(1) infinite}
+    @keyframes flicker{0%{opacity:.2}7%{opacity:.9}9%{opacity:.3}31%{opacity:.6}33%{opacity:.15}58%{opacity:.85}61%{opacity:.35}84%{opacity:.7}86%{opacity:.2}}
+    .viewfinder{z-index:2;position:absolute;inset:0;pointer-events:none;color:#F5EEE2;text-shadow:0 1px 6px rgba(0,0,0,.55)}
     .viewfinder::before{content:"";position:absolute;inset:7%;border:1px dashed rgba(245,238,226,.28);border-radius:999px 999px 0 0}
     .vf-rec{position:absolute;top:13%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.4rem}
     .vf-rec i{width:.5rem;height:.5rem;border-radius:50%;background:var(--accent);animation:blink 1.2s steps(1) infinite}
@@ -161,6 +168,7 @@
     .portal-progress{flex:1;height:1px;background:var(--line);position:relative;overflow:hidden}
     .portal-progress::after{content:"";position:absolute;inset:0;background:var(--accent-hi);transform:scaleX(0);transform-origin:left}
     .portal-progress.run::after{animation:prog 5.2s linear forwards}
+    .portal-progress.driven::after{animation:none;transform:scaleX(var(--u,0))}
     @keyframes prog{to{transform:scaleX(1)}}
     .scroll-cue{position:absolute;left:50%;bottom:var(--space-6);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:var(--space-2);color:var(--faint)}
     .scroll-cue::after{content:"";width:1px;height:2.5rem;background:linear-gradient(var(--accent-hi),transparent);animation:cue 2.2s var(--ease) infinite;transform-origin:top}
@@ -418,18 +426,19 @@
       <div class="hero-meta" data-reveal><span><i class="status" aria-hidden="true"></i>Disponible para nuevos proyectos</span><span>Remoto · España</span><span>Montaje &amp; postproducción</span></div>
     </div>
     <div class="portal-wrap">
-      <button class="portal" type="button" aria-label="Mostrar la siguiente imagen del universo visual">
+      <button class="portal" type="button" aria-label="Atravesar el siguiente portal del universo visual">
         <span class="portal-slides">
           <img class="slide is-active" src="./assets/art-puerta.webp" data-title="Umbral" alt="Barca en un mar turquesa navegando hacia una puerta de luz que se alza sobre el agua" width="960" height="1200" fetchpriority="high">
           <img class="slide" src="./assets/art-sol.webp" data-title="Ocaso" alt="Silueta frente a un gran sol naranja entre dos muros rojos" width="960" height="960" decoding="async">
-          <img class="slide" src="./assets/art-canal.webp" data-title="Travesía" alt="Barca solitaria en un canal turquesa entre sombras de grandes muros" width="960" height="1200" decoding="async">
           <img class="slide" src="./assets/art-arco.webp" data-title="Paso" alt="Figura caminando hacia un arco luminoso naranja entre acantilados rojos" width="960" height="960" decoding="async">
           <img class="slide" src="./assets/art-barca-casa.webp" data-title="Orilla" alt="Hombre en una barca junto a una casa roja sobre aguas turquesas" width="960" height="1200" decoding="async">
+          <canvas class="portal-canvas" aria-hidden="true"></canvas>
         </span>
+        <span class="vf-flicker" aria-hidden="true"></span>
         <span class="viewfinder mono" aria-hidden="true"><span class="vf-rec"><i></i>REC</span><span class="vf-tc" data-live-tc>00:00:00:00</span><span class="vf-fps">24 FPS</span><span class="vf-corner l"></span><span class="vf-corner r"></span></span>
       </button>
       <div class="reflection" aria-hidden="true"><div class="reflection-inner"></div></div>
-      <div class="portal-caption mono" aria-hidden="true"><span data-slide-count>01</span><span>/ 05</span><strong data-slide-caption>Umbral</strong><span class="portal-progress"></span></div>
+      <div class="portal-caption mono" aria-hidden="true"><span data-slide-count>01</span><span>/ 04</span><strong data-slide-caption>Umbral</strong><span class="portal-progress"></span></div>
     </div>
   </div>
   <a class="scroll-cue mono" href="#trabajos" aria-label="Ir a trabajos">Desliza</a>
@@ -566,15 +575,51 @@
   const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -5% 0px'});
   $$('[data-reveal],[data-mask]').forEach(el=>obs.observe(el));
 
-  // Portal: pase de imágenes, reflejo en el agua, timecode en vivo y paralaje
+  // Portal: zoom infinito (la cámara atraviesa la puerta, el sol, el arco y la puerta roja), reflejo, timecode y paralaje
   const hero=$('.hero'),portal=$('.portal'),slides=$$('.slide'),refl=$('.reflection-inner'),bar=$('.portal-progress'),cap=$('[data-slide-caption]'),count=$('[data-slide-count]'),liveTc=$('[data-live-tc]');
-  let idx=0,timer=0,heroVisible=true;
-  const show=i=>{slides[idx].classList.remove('is-active');idx=(i+slides.length)%slides.length;const s=slides[idx];s.classList.add('is-active');cap.textContent=s.dataset.title;count.textContent=String(idx+1).padStart(2,'0');refl.style.backgroundImage='url("'+(s.currentSrc||s.src)+'")';bar.classList.remove('run');if(!reduce){void bar.offsetWidth;bar.classList.add('run')}};
-  const play=()=>{clearInterval(timer);if(!reduce&&heroVisible)timer=setInterval(()=>show(idx+1),5200)};
-  show(0);play();
-  portal.addEventListener('click',()=>{show(idx+1);play()});
-  new IntersectionObserver(([e])=>{heroVisible=e.isIntersecting;heroVisible?play():clearInterval(timer)}).observe(hero);
-  document.addEventListener('visibilitychange',()=>document.hidden?clearInterval(timer):play());
+  let heroVisible=true;
+  // Coordenadas en píxeles de las ilustraciones (960 px de ancho): forma del portal y rectángulo interior que debe llenar el encuadre
+  const WORLDS=[
+    {src:'art-puerta',title:'Umbral',pts:[[812,122],[880,135],[872,285],[795,290]],inner:[814,137,870,284]},
+    {src:'art-sol',title:'Ocaso',c:[487,684],r:166,maxY:830},
+    {src:'art-arco',title:'Paso',pts:[[402,880],[405,420],[420,345],[455,302],[500,284],[560,286],[600,302],[612,335],[620,420],[648,500],[660,700],[650,820],[642,880]],inner:[414,352,604,868]},
+    {src:'art-barca-casa',title:'Orilla',pts:[[728,88],[868,88],[868,450],[728,450]],inner:[730,90,866,448]}
+  ];
+  WORLDS.forEach(w=>{w.img=slides.find(i=>i.src.includes(w.src+'.webp'));w.bbox=w.pts?[Math.min(...w.pts.map(p=>p[0])),Math.min(...w.pts.map(p=>p[1])),Math.max(...w.pts.map(p=>p[0])),Math.max(...w.pts.map(p=>p[1]))]:[w.c[0]-w.r,w.c[1]-w.r,w.c[0]+w.r,Math.min(w.c[1]+w.r,w.maxY)]});
+  const N=WORLDS.length,cv=$('.portal-canvas'),ctx=cv.getContext('2d'),T=5.6;
+  let vw=1,vh=1,dpr=1,k=0,tl=0,speed=1,st=null,ready=false;
+  const innerOf=w=>{if(w.pts)return w.inner;const th=Math.atan(vw/vh),iw=2*w.r*Math.sin(th),ih=Math.min(2*w.r*Math.cos(th),2*(w.maxY-w.c[1]));return[w.c[0]-iw/2,w.c[1]-ih/2,w.c[0]+iw/2,w.c[1]+ih/2]};
+  const path=(w,s,ox,oy)=>{ctx.beginPath();if(w.pts){w.pts.forEach((p,i)=>ctx[i?'lineTo':'moveTo'](p[0]*s+ox,p[1]*s+oy));ctx.closePath()}else ctx.arc(w.c[0]*s+ox,w.c[1]*s+oy,w.r*s,0,Math.PI*2)};
+  const child=(w,s,ox,oy)=>{const n=WORLDS[(WORLDS.indexOf(w)+1)%N].img,[a,b,c,d]=innerOf(w),cx=(a+c)/2,cy=(b+d)/2,bb=w.bbox,
+    hx=Math.max(cx-bb[0],bb[2]-cx),hy=Math.max(cy-bb[1],bb[3]-cy),s2=s*Math.max(2*hx/n.naturalWidth,2*hy/n.naturalHeight);
+    return[s2,cx*s+ox-n.naturalWidth*s2/2,cy*s+oy-n.naturalHeight*s2/2]};
+  // El mundo siguiente se materializa dentro del portal a medida que la cámara se acerca (alpha 0 → 1)
+  const drawWorld=(i,s,ox,oy,alpha)=>{const w=WORLDS[i%N];ctx.globalAlpha=1;ctx.drawImage(w.img,ox,oy,w.img.naturalWidth*s,w.img.naturalHeight*s);
+    if(alpha<=0)return;
+    const[s2,x2,y2]=child(w,s,ox,oy),n=WORLDS[(i+1)%N].img;
+    ctx.save();path(w,s,ox,oy);ctx.clip();if(w.maxY){ctx.beginPath();ctx.rect(-1e5,-1e5,2e5,w.maxY*s+oy+1e5);ctx.clip()}
+    ctx.globalAlpha=alpha;ctx.drawImage(n,x2,y2,n.naturalWidth*s2,n.naturalHeight*s2);ctx.restore();
+    ctx.save();path(w,s,ox,oy);ctx.globalAlpha=Math.min(1,alpha*1.6)*(1-alpha*alpha);ctx.strokeStyle='rgba(255,232,196,.6)';ctx.lineWidth=1.4*dpr;ctx.shadowColor='rgba(255,196,130,.95)';ctx.shadowBlur=18*dpr;ctx.stroke();ctx.restore();ctx.globalAlpha=1};
+  const cover=img=>{const s=Math.max(vw/img.naturalWidth,vh/img.naturalHeight);return[s,(vw-img.naturalWidth*s)/2,(vh-img.naturalHeight*s)/2]};
+  const start=(i,s0,ox0,oy0)=>{k=i%N;const w=WORLDS[k],[a,b,c,d]=innerOf(w),cx=(a+c)/2,cy=(b+d)/2;let s1=Math.max(vw/(c-a),vh/(d-b));if(s1<=s0*1.05)s1=s0*1.5;
+    st={s0,s1,cx,cy,px:cx*s0+ox0,py:cy*s0+oy0};tl=0;speed=1;cap.textContent=w.title;count.textContent=String(k+1).padStart(2,'0');refl.style.backgroundImage='url("'+(w.img.currentSrc||w.img.src)+'")'};
+  const xform=z=>{const w=WORLDS[k],img=w.img,s=st.s0*Math.pow(st.s1/st.s0,z),e=z*z*(3-2*z);
+    let ox=st.px+(vw/2-st.px)*e-st.cx*s,oy=st.py+(vh/2-st.py)*e-st.cy*s;
+    ox=Math.min(0,Math.max(vw-img.naturalWidth*s,ox));oy=Math.min(0,Math.max(vh-img.naturalHeight*s,oy));return[s,ox,oy]};
+  const render=()=>{const u=Math.min(tl/T,1),z=reduce?0:.7*u+.3*u*u*(3-2*u),[s,ox,oy]=xform(z);ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,vw,vh);drawWorld(k,s,ox,oy,reduce?0:Math.min(1,Math.max(0,(z-.22)/.5)));bar.style.setProperty('--u',u.toFixed(3))};
+  const advance=()=>{const[s,ox,oy]=xform(1),[s2,x2,y2]=child(WORLDS[k],s,ox,oy);start(k+1,s2,x2,y2)};
+  const size=()=>{const r=cv.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);vw=Math.max(1,Math.round(r.width*dpr));vh=Math.max(1,Math.round(r.height*dpr));cv.width=vw;cv.height=vh;if(ready){start(k,...cover(WORLDS[k].img));render()}};
+  Promise.all(WORLDS.map(w=>w.img.decode?w.img.decode():Promise.resolve())).then(()=>{
+    if(WORLDS.some(w=>!w.img.naturalWidth))return;
+    ready=true;portal.classList.add('zooming');bar.classList.add('driven');size();
+    if(reduce)return;
+    let last=performance.now();const loop=now=>{requestAnimationFrame(loop);const dt=Math.min(.1,(now-last)/1000);last=now;if(!heroVisible||document.hidden)return;
+      tl+=dt*speed;if(tl>=T)advance();render()};requestAnimationFrame(loop)
+  }).catch(()=>{});
+  addEventListener('resize',()=>{if(ready)size()});
+  portal.addEventListener('click',()=>{if(!ready)return;if(reduce){start(k+1,...cover(WORLDS[(k+1)%N].img));render()}else speed=6});
+  start(0,1,0,0);cap.textContent=WORLDS[0].title;
+  new IntersectionObserver(([e])=>{heroVisible=e.isIntersecting}).observe(hero);
   const t0=performance.now();
   const tick=now=>{if(heroVisible)liveTc.textContent=tc((now-t0)/1000*24);requestAnimationFrame(tick)};
   if(!reduce)requestAnimationFrame(tick);
