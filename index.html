@@ -147,15 +147,10 @@
     .vf-flicker{position:absolute;inset:0;z-index:-1;pointer-events:none;background:rgba(255,226,180,.06);mix-blend-mode:screen;animation:flicker 3.4s steps(1) infinite}
     @keyframes flicker{0%{opacity:.2}7%{opacity:.9}9%{opacity:.3}31%{opacity:.6}33%{opacity:.15}58%{opacity:.85}61%{opacity:.35}84%{opacity:.7}86%{opacity:.2}}
     .viewfinder{position:absolute;inset:5.75rem 1.25rem 1.25rem;z-index:0;pointer-events:none;color:#F5EEE2;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-    .vf-corner{position:absolute;width:1.4rem;height:1.4rem;border:0 solid rgba(245,238,226,.55)}
-    .vf-corner.tl{top:0;left:0;border-top-width:1px;border-left-width:1px}
-    .vf-corner.tr{top:0;right:0;border-top-width:1px;border-right-width:1px}
-    .vf-corner.bl{bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
-    .vf-corner.br{bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
-    .vf-rec{position:absolute;top:.5rem;right:2.2rem;display:flex;align-items:center;gap:.5rem}
+    .vf-rec{position:absolute;top:.5rem;right:.5rem;display:flex;align-items:center;gap:.5rem}
     .vf-rec i{width:.5rem;height:.5rem;border-radius:50%;background:var(--accent);animation:blink 1.2s steps(1) infinite}
     @keyframes blink{50%{opacity:0}}
-    .vf-fps{position:absolute;bottom:.5rem;right:2.2rem}
+    .vf-fps{position:absolute;bottom:.5rem;right:.5rem}
     .hero-grid{position:relative;z-index:1}
     .scroll-cue{position:absolute;left:50%;bottom:var(--space-6);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:var(--space-2);color:var(--faint)}
     .scroll-cue::after{content:"";width:1px;height:2.5rem;background:linear-gradient(var(--accent-hi),transparent);animation:cue 2.2s var(--ease) infinite;transform-origin:top}
@@ -383,7 +378,7 @@
       .js .manifesto-text .w{opacity:1}
     }
   </style>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"LuminaHecho","url":"https://luminahecho.app","email":"hola@luminahecho.app","image":"https://luminahecho.app/assets/og-luminahecho.jpg","description":"Edición de vídeo, postproducción, diseño visual y motion para creadores y marcas.","areaServed":"ES","sameAs":["https://www.instagram.com/luminah_echo/"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"LuminaHecho","url":"https://luminahecho.app","email":"contacto@luminahecho.app","image":"https://luminahecho.app/assets/og-luminahecho.jpg","description":"Edición de vídeo, postproducción, diseño visual y motion para creadores y marcas.","areaServed":"ES","sameAs":["https://www.instagram.com/luminah_echo/"]}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="agua" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.01 0.09" numOctaves="2" seed="4"><animate attributeName="baseFrequency" dur="14s" values="0.01 0.09;0.014 0.12;0.01 0.09" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" scale="16"/></filter></svg>
@@ -408,7 +403,7 @@
   <div class="hero-bg" aria-hidden="true"><canvas class="zoom-canvas"></canvas></div>
   <span class="vf-flicker" aria-hidden="true"></span>
   <div class="hero-shade" aria-hidden="true"></div>
-  <div class="viewfinder mono" aria-hidden="true"><span class="vf-corner tl"></span><span class="vf-corner tr"></span><span class="vf-corner bl"></span><span class="vf-corner br"></span><span class="vf-rec"><i></i>REC <span data-live-tc>00:00:00:00</span></span><span class="vf-fps"><span data-zoom-label>Sala de montaje</span> · 24 FPS</span></div>
+  <div class="viewfinder mono" aria-hidden="true"><span class="vf-rec"><i></i>REC <span data-live-tc>00:00:00:00</span></span><span class="vf-fps"><span data-zoom-label>Sala de montaje</span> · 24 FPS</span></div>
   <div class="container hero-grid">
     <div class="hero-copy">
       <span class="eyebrow">Edición de vídeo · Diseño visual · Narrativa</span>
@@ -512,7 +507,7 @@
     <span class="scene-label mono" aria-hidden="true">LH_OCASO · render en vivo</span>
   </div>
   <div class="container contact-grid section-pad">
-  <div class="contact-copy" data-reveal><p>Cuéntame qué estás creando, en qué punto se encuentra y qué necesitas. Responderé con los siguientes pasos.</p><div class="contact-links"><a class="email-link" href="mailto:hola@luminahecho.app">hola@luminahecho.app</a><a class="ig-link" href="https://www.instagram.com/luminah_echo/" target="_blank" rel="noopener">@luminah_echo <span aria-hidden="true">↗</span></a></div></div>
+  <div class="contact-copy" data-reveal><p>Cuéntame qué estás creando, en qué punto se encuentra y qué necesitas. Responderé con los siguientes pasos.</p><div class="contact-links"><a class="email-link" href="mailto:contacto@luminahecho.app">contacto@luminahecho.app</a><a class="ig-link" href="https://www.instagram.com/luminah_echo/" target="_blank" rel="noopener">@luminah_echo <span aria-hidden="true">↗</span></a></div></div>
   <div class="export-panel" data-reveal>
     <div class="panel-bar mono"><span class="panel-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Nuevo proyecto · Exportar</span><span aria-hidden="true">●</span></div>
     <form name="contacto" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="contact-form"><input type="hidden" name="form-name" value="contacto"><input type="hidden" name="subject" data-remove-prefix value="Nuevo proyecto desde LuminaHecho"><p class="honeypot"><label>No rellenes esto: <input name="bot-field"></label></p><div class="row"><div class="field"><label for="nombre">Nombre *</label><input id="nombre" name="nombre" autocomplete="name" required placeholder="Tu nombre"></div><div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com"></div></div><div class="field"><label for="tipo">¿Qué necesitas?</label><select id="tipo" name="tipo"><option>Edición de vídeo</option><option>Contenido vertical (Shorts / Reels)</option><option>Motion graphics y diseño</option><option>Postproducción completa</option><option>Otro proyecto</option></select></div><div class="field"><label for="mensaje">Sobre el proyecto *</label><textarea id="mensaje" name="mensaje" required placeholder="Objetivo, duración, fecha aproximada y enlaces de referencia..."></textarea></div><div class="privacy"><input id="privacidad" name="privacidad" type="checkbox" required><label for="privacidad">He leído la <button type="button" data-open-modal="privacidad">información de privacidad</button> y acepto el tratamiento de mis datos para responder a esta solicitud. *</label></div><button class="btn btn-primary submit" type="submit"><span class="btn-label">Enviar proyecto</span> <span aria-hidden="true">↗</span><span class="render" aria-hidden="true"></span></button><p class="form-status" id="form-status" role="status" aria-live="polite"></p></form>
@@ -530,8 +525,8 @@
   </div>
 </nav>
 
-<dialog class="modal" id="modal-privacidad"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Política de privacidad</h2><p><strong>Texto provisional:</strong> sustituye los campos entre corchetes antes de publicar.</p><h3>Responsable</h3><p>[Nombre y apellidos o razón social], [NIF], [dirección profesional], hola@luminahecho.app.</p><h3>Finalidad y legitimación</h3><p>Responder a consultas y preparar propuestas solicitadas. La base jurídica es tu consentimiento al enviar el formulario y, cuando proceda, la aplicación de medidas precontractuales.</p><h3>Conservación y destinatarios</h3><p>Los datos se conservarán el tiempo necesario para atender la consulta y las obligaciones aplicables. El servicio de alojamiento y formularios puede actuar como encargado del tratamiento.</p><h3>Derechos</h3><p>Puedes solicitar acceso, rectificación, supresión, limitación, oposición o portabilidad escribiendo al correo indicado. También puedes reclamar ante la AEPD.</p></article></dialog>
-<dialog class="modal" id="modal-legal"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Aviso legal</h2><p><strong>Texto provisional:</strong> completa estos datos antes de publicar.</p><h3>Titular</h3><p>[Nombre y apellidos o razón social], [NIF], [domicilio profesional], hola@luminahecho.app.</p><h3>Actividad</h3><p>Servicios profesionales de edición de vídeo, postproducción y diseño audiovisual.</p><h3>Propiedad intelectual</h3><p>Los contenidos propios, identidad visual y trabajos publicados pertenecen a sus titulares. No se autoriza su reutilización sin permiso.</p></article></dialog>
+<dialog class="modal" id="modal-privacidad"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Política de privacidad</h2><p><strong>Texto provisional:</strong> sustituye los campos entre corchetes antes de publicar.</p><h3>Responsable</h3><p>[Nombre y apellidos o razón social], [NIF], [dirección profesional], contacto@luminahecho.app.</p><h3>Finalidad y legitimación</h3><p>Responder a consultas y preparar propuestas solicitadas. La base jurídica es tu consentimiento al enviar el formulario y, cuando proceda, la aplicación de medidas precontractuales.</p><h3>Conservación y destinatarios</h3><p>Los datos se conservarán el tiempo necesario para atender la consulta y las obligaciones aplicables. El servicio de alojamiento y formularios puede actuar como encargado del tratamiento.</p><h3>Derechos</h3><p>Puedes solicitar acceso, rectificación, supresión, limitación, oposición o portabilidad escribiendo al correo indicado. También puedes reclamar ante la AEPD.</p></article></dialog>
+<dialog class="modal" id="modal-legal"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Aviso legal</h2><p><strong>Texto provisional:</strong> completa estos datos antes de publicar.</p><h3>Titular</h3><p>[Nombre y apellidos o razón social], [NIF], [domicilio profesional], contacto@luminahecho.app.</p><h3>Actividad</h3><p>Servicios profesionales de edición de vídeo, postproducción y diseño audiovisual.</p><h3>Propiedad intelectual</h3><p>Los contenidos propios, identidad visual y trabajos publicados pertenecen a sus titulares. No se autoriza su reutilización sin permiso.</p></article></dialog>
 <dialog class="modal" id="modal-video" aria-label="Reproductor de vídeo"><div class="video-card"><button class="icon-btn close" type="button" aria-label="Cerrar vídeo">×</button><iframe id="video-frame" title="Vídeo de LuminaHecho" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen src="about:blank"></iframe></div></dialog>
 
 <script>
@@ -749,7 +744,7 @@ col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
   form.addEventListener('submit',async e=>{e.preventDefault();if(!form.checkValidity()){form.reportValidity();return}
     const button=$('[type=submit]',form),label=$('.btn-label',button);button.disabled=true;button.classList.add('is-rendering');label.textContent='Exportando…';
     try{const body=new URLSearchParams(new FormData(form)).toString();const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});if(!r.ok)throw new Error();status.textContent='¡Gracias! Tu mensaje se ha enviado correctamente.';form.reset()}
-    catch(err){status.innerHTML='No se pudo enviar. Escríbeme a <a href="mailto:hola@luminahecho.app">hola@luminahecho.app</a>.'}
+    catch(err){status.innerHTML='No se pudo enviar. Escríbeme a <a href="mailto:contacto@luminahecho.app">contacto@luminahecho.app</a>.'}
     finally{button.disabled=false;button.classList.remove('is-rendering');label.textContent='Enviar proyecto'}});
 })();
 </script>

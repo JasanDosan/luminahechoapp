@@ -8,7 +8,7 @@ LUMINAHECHO — LISTA ANTES DE PUBLICAR
    - Si es de otra plataforma, se abre en una pestaña nueva.
    Cambia también "Proyecto 0X", la etiqueta (Edición · Narrativa…) y el nombre LH_0X_….mov.
 3. Completa los campos [Nombre...], [NIF] y [dirección...] del Aviso legal y Privacidad.
-4. Mantén el email hola@luminahecho.app solo si ya has creado ese buzón en IONOS.
+4. Mantén el email contacto@luminahecho.app solo si ya has creado ese buzón en IONOS.
 5. Sube TODA esta carpeta a Netlify Drop; index.html debe permanecer en la raíz.
 6. Activa Forms > Enable form detection y vuelve a desplegar la carpeta
    (el formulario sigue llamándose "contacto", con los mismos campos que antes).
