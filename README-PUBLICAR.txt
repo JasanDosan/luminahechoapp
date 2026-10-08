@@ -21,6 +21,10 @@ Qué hay de nuevo
   portada, puerta de luz con barca en el manifiesto y sol entre muros en contacto.
   Si un navegador no admite WebGL, se muestra un fondo de color equivalente.
 - Con "reducir movimiento" activado en el dispositivo, las animaciones se detienen.
-- Las ilustraciones están en assets/art-*.webp (versión 960 px y versión -480 para miniaturas).
+- Portada: zoom infinito a pantalla completa con dos cadenas de Midjourney (Zoom Out 2x).
+  assets/zoom/a0…a6 (de dentro hacia fuera: barca → sala de montaje) y b0…b6 (sol → laguna),
+  cada una en -l (escritorio) y -s (móvil), más a-pano / b-pano para pantallas anchas.
+  Para añadir una cadena nueva: mismas reglas (cada imagen contiene a la anterior centrada a la mitad).
+- Galería y tarjetas de trabajos: assets/obra/*.webp (720 px y -400).
 
 No subas vídeos grandes a esta carpeta. Aloja los vídeos en YouTube/Vimeo y enlázalos.
