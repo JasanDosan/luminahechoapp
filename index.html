@@ -273,7 +273,35 @@
 
     /* Contacto */
     .contact{overflow:clip;isolation:isolate;background:var(--deep)}
-    .finale-track{position:relative;height:320vh;background:var(--deep)}
+    /* Contacto: «Estudios de luz», cuaderno de texturas con láminas que se deslizan con el scroll */
+    @property --r{syntax:'<length>';inherits:true;initial-value:0px}
+    .finale-track{position:relative;height:560vh;background:var(--deep)}
+    .studio{background-color:var(--sbg,var(--deep));transition:background-color 1.2s ease}
+    .studio::before,.studio::after{display:none}
+    .studio-title{position:absolute;z-index:0;top:4.75rem;left:max(1rem,calc((100vw - var(--content)) / 2));margin:0;font-family:var(--font-display);font-size:clamp(4.5rem,2rem + 10vw,13rem);line-height:.84;text-transform:uppercase;letter-spacing:-.01em;color:rgba(245,238,226,.075);pointer-events:none;translate:calc(var(--mfp,0) * -8vw) 0}
+    .studio-eyebrow{position:absolute;z-index:4;left:max(1rem,calc((100vw - var(--content)) / 2));bottom:calc(var(--timeline-h) + 1.25rem)}
+    .plates{--pw:clamp(15rem,21vw,25rem);--gap:15vw;position:absolute;top:0;bottom:0;left:0;z-index:2;display:flex;align-items:center;gap:var(--gap);padding-left:max(1rem,calc((100vw - var(--content)) / 2 + 14vw));will-change:transform}
+    .plate{position:relative;flex:none;width:var(--pw);margin:0;translate:0 var(--oy,0)}
+    .plate:nth-child(odd){--oy:8vh}.plate:nth-child(even){--oy:-10vh}
+    .plate-img{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:.25rem;box-shadow:0 34px 70px -30px rgba(0,0,0,.75);transition:--r .7s var(--ease);cursor:crosshair}
+    .plate-img:hover,.plate.peek .plate-img{--r:9rem}
+    .plate-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .plate-src{scale:1.12;translate:calc(var(--d,0) * -6%) 0}
+    .plate-texwrap{position:absolute;inset:0;-webkit-mask-image:radial-gradient(circle at var(--mx,50%) var(--my,50%),transparent calc(var(--r) * .55),#000 var(--r));mask-image:radial-gradient(circle at var(--mx,50%) var(--my,50%),transparent calc(var(--r) * .55),#000 var(--r))}
+    .plate-tex{scale:1.22;translate:calc(var(--d,0) * -12%) 0;animation:drift 22s ease-in-out infinite alternate}
+    @keyframes drift{from{transform:translate(-2.5%,1.5%) rotate(-.6deg)}to{transform:translate(2.5%,-2%) rotate(.6deg)}}
+    .plate figcaption{position:absolute;z-index:2;left:-16%;bottom:10%;pointer-events:none;translate:calc(var(--d,0) * 48px) 0}
+    .plate:nth-child(even) figcaption{left:auto;right:-22%;bottom:auto;top:56%;text-align:right}
+    .plate strong{display:block;font-family:var(--font-display);font-weight:400;font-size:clamp(1.7rem,1rem + 2.3vw,3.3rem);line-height:.92;text-transform:uppercase;color:#F5EEE2;text-shadow:0 2px 22px rgba(0,0,0,.55)}
+    .plate-n{display:block;margin-top:.7rem;font-size:.66rem;color:rgba(245,238,226,.72)}
+    .plate-end{flex:none;width:100vw;display:grid;justify-items:center;align-content:center;text-align:center;padding:0 1.5rem}
+    .plate-end .credit{opacity:.85}
+    .end-title{font-family:var(--font-display);font-size:clamp(2.8rem,1rem + 5.4vw,7rem);line-height:1;max-width:13ch;text-wrap:balance}
+    .end-title em{font-style:italic;color:var(--accent-hi)}
+    .plate-end .mf-sign{opacity:1}
+    .studio-progress{position:absolute;z-index:4;left:50%;bottom:calc(var(--timeline-h) + 1.55rem);width:clamp(6rem,14vw,11rem);height:1px;translate:-50% 0;background:rgba(245,238,226,.2)}
+    .studio-progress::after{content:"";position:absolute;inset:0;background:var(--accent-hi);transform:scaleX(var(--mfp,0));transform-origin:left}
+    .no-js .plates{position:relative;flex-wrap:wrap;padding:2rem 1rem}
     .contact-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(var(--space-8),7vw,var(--space-24));align-items:start}
     .contact-copy p{color:var(--muted);font-size:var(--text-lg)}
     .contact-links{display:grid;gap:var(--space-3);margin-top:var(--space-8);justify-items:start}
@@ -361,6 +389,12 @@
       .track-head{border-right:0;padding-bottom:var(--space-2)}
       .track-lane{min-height:4.5rem;margin:0 var(--space-6) var(--space-4)}
       .about-media{max-width:28rem}
+      .plates{--pw:min(64vw,19rem);--gap:16vw;padding-left:18vw}
+      .plate:nth-child(odd){--oy:5vh}.plate:nth-child(even){--oy:-6vh}
+      .plate figcaption,.plate:nth-child(even) figcaption{left:-8%;right:auto;top:auto;bottom:-3.8rem;text-align:left;translate:none}
+      .plate strong{font-size:1.7rem}
+      .studio-progress{left:auto;right:1rem;translate:none}
+      .studio-eyebrow{max-width:60vw}
       .beat{align-content:end;justify-items:center;text-align:center;padding:0 1.25rem calc(var(--bar,0) * 11svh + 5.5rem)}
       .big{max-width:14ch}
       .footer-grid{grid-template-columns:1fr}
@@ -521,14 +555,22 @@
 
 <section class="contact" id="contacto" aria-labelledby="contacto-title">
   <div class="finale-track" data-seq>
-    <div class="mf-stage">
-      <canvas class="scene" data-scene="sol" aria-hidden="true"></canvas>
-      <span class="eyebrow mf-eyebrow">Bin 05 — Contacto</span>
+    <div class="mf-stage studio">
+      <p class="studio-title" aria-hidden="true">Estudios<br>de luz</p>
+      <span class="eyebrow studio-eyebrow">Bin 05 — Contacto · Cuaderno de texturas</span>
       <h2 class="sr-only" id="contacto-title">¿Qué historia quieres contar?</h2>
-      <div class="beat" aria-hidden="true"><span class="credit">IV · El encuentro</span><p class="big">Toda historia empieza con una <em>conversación.</em></p></div>
-      <div class="beat" aria-hidden="true"><span class="credit">Tú traes el material</span><p class="big">yo encuentro la <em>puerta.</em></p></div>
-      <div class="beat" aria-hidden="true"><span class="credit">El siguiente plano es tuyo</span><p class="big">¿Qué historia quieres <em>contar?</em></p><span class="mf-sign mono">Escríbeme aquí abajo ↓</span></div>
-      <div class="mf-progress mono" aria-hidden="true"><span>Escena <b data-seq-index>01</b> / 03</span><i></i></div>
+      <div class="plates">
+      <figure class="plate" data-bg="#10292e"><div class="plate-img"><img class="plate-src" src="./assets/zoom/a0-s.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/espuma.webp" alt="Espuma de mar vista desde arriba" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Espuma de<br>travesía</strong><span class="plate-n mono">Nº 01 · de «Travesía»</span></figcaption></figure>
+      <figure class="plate" data-bg="#2a1714"><div class="plate-img"><img class="plate-src" src="./assets/zoom/a2-s.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/yeso.webp" alt="Muro de yeso rojo con una ventana redonda" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Yeso<br>bermellón</strong><span class="plate-n mono">Nº 02 · de «Ventana»</span></figcaption></figure>
+      <figure class="plate" data-bg="#2c1812"><div class="plate-img"><img class="plate-src" src="./assets/obra/film-reel-2.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/dunas.webp" alt="Dunas rojas bajo un sol pálido" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Dunas de<br>ocaso</strong><span class="plate-n mono">Nº 03 · de «Bobina»</span></figcaption></figure>
+      <figure class="plate" data-bg="#24120f"><div class="plate-img"><img class="plate-src" src="./assets/zoom/c0-s.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/haz.webp" alt="Haz de luz naranja sobre el mar de noche" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Haz de<br>cerradura</strong><span class="plate-n mono">Nº 04 · de «Cerradura»</span></figcaption></figure>
+      <figure class="plate" data-bg="#172a31"><div class="plate-img"><img class="plate-src" src="./assets/obra/moon-gate.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/nubes.webp" alt="Nubes junto a un muro de terracota" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Nubes de<br>umbral</strong><span class="plate-n mono">Nº 05 · de «Puerta lunar»</span></figcaption></figure>
+      <figure class="plate" data-bg="#0f2229"><div class="plate-img"><img class="plate-src" src="./assets/obra/wave-tunnel-3.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/ola.webp" alt="Ola turquesa que se curva" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Ola<br>túnel</strong><span class="plate-n mono">Nº 06 · de «Ola»</span></figcaption></figure>
+      <figure class="plate" data-bg="#261613"><div class="plate-img"><img class="plate-src" src="./assets/zoom/b2-s.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/roca.webp" alt="Arco de roca roja con el sol al fondo" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Arco de<br>roca</strong><span class="plate-n mono">Nº 07 · de «Acantilados»</span></figcaption></figure>
+      <figure class="plate" data-bg="#2b1b11"><div class="plate-img"><img class="plate-src" src="./assets/zoom/b0-s.webp" alt="" width="800" height="1001" loading="lazy" decoding="async"><div class="plate-texwrap"><img class="plate-tex" src="./assets/texturas/sol.webp" alt="Sol naranja sobre el mar y una figura" width="720" height="900" loading="lazy" decoding="async"></div></div><figcaption><strong>Sol de<br>laguna</strong><span class="plate-n mono">Nº 08 · de «Ocaso»</span></figcaption></figure>
+        <div class="plate-end"><span class="credit">El siguiente plano es tuyo</span><p class="end-title">¿Qué historia quieres <em>contar?</em></p><span class="mf-sign mono">Escríbeme aquí abajo ↓</span></div>
+      </div>
+      <div class="studio-progress" aria-hidden="true"></div>
     </div>
   </div>
   <div class="container contact-grid section-pad">
@@ -680,6 +722,16 @@
     q.el.style.setProperty('--mfp',q.p.toFixed(4));q.el.style.setProperty('--bar',clamp((innerHeight-r.top)/innerHeight).toFixed(3))});
   const seqP=sel=>{const q=SEQS.find(x=>x.el.matches(sel));return q?q.p:0};
 
+  // Contacto: «Estudios de luz». El scroll desliza las láminas en horizontal con paralaje y el fondo toma el color
+  // de la lámina central; al pasar el cursor, un círculo líquido revela la ilustración de la que sale cada textura.
+  const studio=$('.studio'),platesRow=$('.plates'),plateEls=$$('.plate');
+  const studioUpdate=()=>{if(!studio)return;const p=seqP('.finale-track'),w=Math.max(0,platesRow.scrollWidth-innerWidth);
+    platesRow.style.transform=`translate3d(${(-Math.min(1,p/.88)*w).toFixed(1)}px,0,0)`;let best=null,bd=9;
+    plateEls.forEach(el=>{const r=el.getBoundingClientRect(),d=(r.left+r.width/2-innerWidth/2)/innerWidth;el.style.setProperty('--d',d.toFixed(3));if(Math.abs(d)<bd){bd=Math.abs(d);best=el}
+      el.classList.toggle('peek',!matchMedia('(hover:hover)').matches&&Math.abs(d)<.12)});
+    studio.style.setProperty('--sbg',p>.86||!best||bd>.7?'var(--deep)':best.dataset.bg)};
+  plateEls.forEach(pl=>{const im=$('.plate-img',pl);im.addEventListener('pointermove',e=>{const r=im.getBoundingClientRect();im.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');im.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%')})});
+
   // Línea de tiempo
   const header=$('.site-header'),navLinks=$$('.nav-links a');
   const tlTc=$('.tl-tc'),track=$('.tl-track'),head=$('.tl-playhead'),clips=$$('.tl-clip'),secs=clips.map(c=>document.getElementById(c.hash.slice(1)));
@@ -692,7 +744,7 @@
     let active=0;starts.forEach((s,i)=>{if(y+vh*.4>=s)active=i});
     clips.forEach((c,i)=>c.classList.toggle('is-active',i===active));
     const id=secs[active].id;navLinks.forEach(a=>a.hash==='#'+id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current'));
-    seqUpdate();
+    seqUpdate();studioUpdate();
   };
   let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update()})}},{passive:true});
   addEventListener('resize',layout);addEventListener('load',layout);new ResizeObserver(layout).observe(document.body);layout();
@@ -734,29 +786,6 @@ col=mix(col,mix(inkD,inkC,dn),dn*.85);col+=inkC*ln*dn*.35;
 float sd=(length(p-uC)-.17*uS)/uS;float disc=smoothstep(.004,-.004,sd)*sun;vec3 sunC=mix(vec3(1.,.62,.2),vec3(1.,.42,.1),smoothstep(-.17,0.,sd));
 col=mix(col,sunC,disc);col+=vec3(1.,.5,.2)*.3*exp(-max(sd,0.)*7.)*sun;
 col*=1.-.38*length(p*vec2(.6,1.));col+=grain(t);gl_FragColor=vec4(col,1.);}`;
-  // Sol entre muros: calima, trazos verticales, silueta y reflejo en suelo mojado.
-  const GLSL_SUN=GLSL_BASE+`uniform float uGapX,uP,uZ;uniform vec2 uOff;
-const float HZ=-.2;
-vec3 above(vec2 p,float t){float R=.2;vec2 sc=vec2(uGapX,mix(HZ-.27,HZ+.12,smoothstep(.12,.7,uP))+.012*sin(t*.25));
-vec2 hp=p+vec2((fbm(p*7.+vec2(0.,-t*.5))-.5)*.016,0.);float d=length(hp-sc);
-vec3 sky=mix(mix(vec3(.03,.15,.17),vec3(.42,.07,.04),uMood),mix(vec3(.62,.24,.11),vec3(.92,.32,.1),uMood),exp(-max(d-R,0.)*3.2));
-vec3 sun=mix(vec3(1.,.68,.24),vec3(1.,.42,.09),smoothstep(0.,R,d)*.85+.15*n(hp*28.));
-vec3 c=mix(sky,sun,smoothstep(R+.003,R-.003,d));c+=vec3(1.,.45,.12)*.24*exp(-max(d-R,0.)*10.);
-float wx=abs(p.x-uGapX)-mix(.012,.16,smoothstep(0.,.45,uP));float str=.55*n(vec2(p.x*110.,p.y*4.))+.45*n(vec2(p.x*28.,p.y*1.6+3.));
-vec3 wall=mix(mix(vec3(.02,.10,.11),vec3(.19,.035,.022),uMood),mix(vec3(.05,.25,.26),vec3(.47,.1,.05),uMood),str);
-wall*=.65+.35*smoothstep(-.5,.5,p.y);wall+=vec3(1.,.42,.12)*.32*exp(-wx*15.);
-return mix(c,wall,smoothstep(0.,.003,wx));}
-float figure(vec2 q,float e){float hw=mix(.016,.0085,clamp(q.y/.07,0.,1.));return smoothstep(e,0.,abs(q.x)-hw)*smoothstep(-e,0.,q.y)*smoothstep(.072+e,.072,q.y);}
-void main(){vec2 p=((gl_FragCoord.xy-.5*uRes)/uRes.y-uOff)/uZ;float t=uT;float br=n(vec2(p.x*80.,p.y*20.));vec3 col;
-if(p.y>HZ){col=above(p,t);}else{float dy=HZ-p.y;float rip=(n(vec2(p.x*4.,dy*70.-t*.8))-.5)*.05*(.3+dy*4.);
-col=above(vec2(p.x+rip,HZ+dy*1.4),t)*max(.12,.55-dy*.7);col+=vec3(1.,.5,.2)*.05*n(vec2(p.x*60.,dy*200.-t));}
-vec2 fp=p-vec2(uGapX,HZ);float e=2./uRes.y;
-float fig=max(figure(fp,e),smoothstep(.0105+e,.0105,length(fp-vec2(0.,.084))));
-float figR=figure(vec2(fp.x+(n(vec2(fp.y*90.,t*2.))-.5)*.008,-fp.y),e*2.);
-float fa=smoothstep(.4,.62,uP);col=mix(col,vec3(.04,.01,.008),fig*fa);col=mix(col,col*.3,figR*.75*fa);
-vec2 sv=p-vec2(uGapX,HZ+.12);float rays=pow(n(vec2(atan(sv.y,sv.x)*7.,t*.15)),4.)*exp(-length(sv)*2.2)*smoothstep(.7,1.,uP)*step(HZ,p.y);
-col+=vec3(1.,.55,.2)*rays*.7;
-col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
   const makeScene=(canvas,frag,names)=>{
     let gl;try{gl=canvas.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'})}catch(e){}
     if(!gl)return null;
@@ -771,13 +800,10 @@ col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
       resize(){const r=canvas.getBoundingClientRect();this.W=Math.max(1,r.width);this.H=Math.max(1,r.height);const k=Math.min(devicePixelRatio||1,1.5)*.6;canvas.width=Math.round(this.W*k);canvas.height=Math.round(this.H*k);gl.viewport(0,0,canvas.width,canvas.height);gl.uniform2f(u.uRes,canvas.width,canvas.height)},
       toP(x,y){return[(x-this.W/2)/this.H,(this.H/2-y)/this.H]}};
   };
-  const scenes=[],sceneEls={titulos:$('[data-scene="titulos"]'),sol:$('[data-scene="sol"]')};
+  const scenes=[],sceneEls={titulos:$('[data-scene="titulos"]')};
   const ts=makeScene(sceneEls.titulos,GLSL_TITLES,['uP','uC','uS']);
   if(ts){ts.place=function(){const wide=this.W>980;this.c=wide?[this.W/this.H*.24,0]:[0,.19];this.sc=wide?1:Math.min(1,this.W/this.H*1.25)};
     ts.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uP,seqP('.manifesto'));g.uniform2f(u.uC,...this.c);g.uniform1f(u.uS,this.sc)};scenes.push(ts)}
-  const ss=makeScene(sceneEls.sol,GLSL_SUN,['uGapX','uP','uZ','uOff']);
-  if(ss){ss.place=function(){const narrow=this.W/this.H<.9;this.z=narrow?Math.min(1,this.W/this.H*1.6):1;this.off=narrow?[0,.12]:[0,0]};
-    ss.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uGapX,0);g.uniform1f(u.uP,seqP('.finale-track'));g.uniform1f(u.uZ,this.z);g.uniform2f(u.uOff,...this.off)};scenes.push(ss)}
   let moodV=root.dataset.mood==='ocaso'?1:0,lastDraw=0;
   const draw=(s,t)=>{s.gl.uniform1f(s.u.uT,t);s.gl.uniform1f(s.u.uMood,moodV);s.frame(t);s.gl.drawArrays(s.gl.TRIANGLES,0,3)};
   const placeScenes=()=>scenes.forEach(s=>{s.resize();s.place();if(reduce||!s.visible)draw(s,12)});
