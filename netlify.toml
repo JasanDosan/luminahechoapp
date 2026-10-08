@@ -1,0 +1,9 @@
+# Web estática: se publica la raíz del repositorio tal cual, sin paso de compilación.
+[build]
+  publish = "."
+
+# Las ilustraciones cambian poco: caché de una semana en el navegador.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
