@@ -141,7 +141,6 @@
     .scene-shade{position:absolute;inset:0;pointer-events:none}
     .scene-label{position:absolute;right:var(--space-4);bottom:var(--space-4);z-index:2;color:color-mix(in oklab,var(--text) 60%,transparent);display:flex;align-items:center;gap:.4rem}
     .scene-label::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--accent);animation:blink 1.2s steps(1) infinite}
-    .boat{position:absolute;left:0;top:0;width:var(--bw,34px);pointer-events:none;opacity:0;will-change:transform,opacity;filter:drop-shadow(-6px 10px 6px rgba(0,0,0,.35))}
     .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(var(--space-8),5vw,var(--space-20));align-items:center}
     .hero h1{font-family:var(--font-display);font-size:var(--text-hero);line-height:.92;letter-spacing:-.02em;margin:var(--space-6) 0 var(--space-8)}
     .hero h1 em{color:var(--accent-hi)}
@@ -193,14 +192,33 @@
     .work-foot{margin-top:var(--space-10)}
 
     /* Manifiesto */
-    .manifesto{overflow:hidden;isolation:isolate;background:var(--deep);min-height:max(100svh,44rem);display:flex;align-items:center}
-    .manifesto .scene-shade{z-index:0;background:linear-gradient(90deg,color-mix(in oklab,var(--deep) 82%,transparent) 0%,color-mix(in oklab,var(--deep) 40%,transparent) 48%,transparent 68%),linear-gradient(180deg,var(--bg) 0%,transparent 14%,transparent 86%,var(--bg-2) 100%)}
-    .manifesto .container{position:relative;z-index:1}
-    .manifesto-text{text-shadow:0 2px 24px color-mix(in oklab,var(--deep) 80%,transparent);position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(2rem,1rem + 3.4vw,4.4rem);line-height:1.1;letter-spacing:-.01em;max-width:22ch;margin-top:var(--space-8)}
-    .js .manifesto-text .w{opacity:.16;transition:opacity .5s ease,color .5s ease}
-    .js .manifesto-text .w.on{opacity:1}
-    .manifesto-text em,.manifesto-text .hl{font-style:italic;color:var(--accent-hi)}
-    .manifesto-sign{margin-top:var(--space-10);color:var(--faint)}
+    /* Manifiesto: secuencia de títulos guiada por el scroll (curvas de nivel, puerta de luz, corte, tinta y sol) */
+    .manifesto{position:relative;height:460vh;background:var(--deep)}
+    .mf-stage{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate}
+    .mf-stage .scene{z-index:0}
+    .mf-stage::before,.mf-stage::after{content:"";position:absolute;left:0;right:0;z-index:3;height:calc(var(--bar,0) * 11svh);background:#020607;transition:height .6s var(--ease)}
+    .mf-stage::before{top:0}.mf-stage::after{bottom:0}
+    .mf-eyebrow{position:absolute;z-index:4;top:calc(var(--bar,0) * 11svh + 5.5rem);left:max(1rem,calc((100vw - var(--content)) / 2))}
+    .beat{position:absolute;inset:0;z-index:2;display:grid;align-content:center;justify-items:start;text-align:left;padding:0 max(1rem,calc((100vw - var(--content)) / 2));pointer-events:none;text-shadow:0 2px 30px rgba(2,6,7,.7)}
+    .credit{font-family:var(--font-display);font-size:clamp(.8rem,.7rem + .3vw,1rem);letter-spacing:.32em;text-transform:uppercase;color:var(--cream);opacity:0;margin-bottom:var(--space-6);transition:opacity 1s ease,letter-spacing 1.6s var(--ease)}
+    .beat.is-on .credit{opacity:.85;letter-spacing:.22em;transition-delay:.15s}
+    .big{font-family:var(--font-display);font-size:clamp(2.4rem,1rem + 4.6vw,6.2rem);line-height:1.02;letter-spacing:-.01em;max-width:12ch;text-wrap:balance}
+    .big.huge{font-size:clamp(4rem,1.5rem + 7vw,10rem);max-width:none}
+    .big em{font-style:italic;color:var(--accent-hi)}
+    .big .wd{display:inline-block;white-space:nowrap}
+    .js .big .ch{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(.35em) scale(1.04);transition:opacity .9s ease calc(var(--i) * 26ms),filter 1.2s ease calc(var(--i) * 26ms),transform 1.2s var(--ease) calc(var(--i) * 26ms)}
+    .js .beat.is-on .ch{opacity:1;filter:none;transform:none}
+    .js .beat.is-out .ch{opacity:0;filter:blur(10px);transform:translateY(-.3em);transition-duration:.45s;transition-delay:0s}
+    .beat.is-out .credit{opacity:0;transition-delay:0s;transition-duration:.4s}
+    .beat-cut.is-on .big{animation:slice 1s steps(1,end) .55s 1}
+    @keyframes slice{0%{clip-path:inset(0 0 52% 0);transform:translateX(-3.5%)}12%{clip-path:inset(48% 0 0 0);transform:translateX(3.5%)}24%{clip-path:inset(0 0 52% 0);transform:translateX(1.2%)}36%{clip-path:none;transform:none}}
+    .mf-sign{margin-top:var(--space-8);color:var(--faint);opacity:0;transition:opacity 1s ease 1.2s}
+    .beat.is-on .mf-sign{opacity:1}
+    .mf-progress{position:absolute;z-index:4;left:max(1rem,calc((100vw - var(--content)) / 2));bottom:calc(var(--bar,0) * 11svh + 1.5rem);display:flex;align-items:center;gap:var(--space-3);color:var(--faint)}
+    .mf-progress i{display:block;width:clamp(4rem,12vw,9rem);height:1px;background:var(--line);position:relative;overflow:hidden}
+    .mf-progress i::after{content:"";position:absolute;inset:0;background:var(--accent-hi);transform:scaleX(var(--mfp,0));transform-origin:left}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    .no-js .manifesto{height:auto}.no-js .mf-stage{position:relative;height:auto;padding:8rem 1rem}.no-js .beat{position:relative;inset:auto;padding:1rem}.no-js .mf-progress{display:none}
 
     /* Servicios como pistas de una línea de tiempo */
     .services{background:linear-gradient(180deg,var(--bg),var(--bg-2))}
@@ -361,8 +379,8 @@
       .steps::after{transform:scaleY(var(--progress));transform-origin:top;background:linear-gradient(180deg,var(--accent-2),var(--accent-hi))}
       .step-marker{top:.2rem;left:calc(-1 * var(--space-12))}
       .about-media{max-width:28rem}
-      .manifesto{align-items:flex-end}
-      .manifesto .scene-shade{background:linear-gradient(0deg,color-mix(in oklab,var(--deep) 90%,transparent) 0%,color-mix(in oklab,var(--deep) 55%,transparent) 50%,transparent 75%),linear-gradient(180deg,var(--bg) 0%,transparent 12%)}
+      .beat{align-content:end;justify-items:center;text-align:center;padding:0 1.25rem calc(var(--bar,0) * 11svh + 5.5rem)}
+      .big{max-width:14ch}
       .footer-grid{grid-template-columns:1fr}
     }
     @media(max-width:560px){
@@ -384,7 +402,6 @@
       .grain,.sweep{display:none}
       .js .line>span,.js [data-reveal],.js .track:not(.visible) .tclip{transform:none;opacity:1}
       .js [data-mask]>img{clip-path:none;transform:none}
-      .js .manifesto-text .w{opacity:1}
     }
   </style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"LuminaHecho","url":"https://luminahecho.app","email":"contacto@luminahecho.app","image":"https://luminahecho.app/assets/og-luminahecho.jpg","description":"Edición de vídeo, postproducción, diseño visual y motion para creadores y marcas.","areaServed":"ES","sameAs":["https://www.instagram.com/luminah_echo/"]}</script>
@@ -443,14 +460,19 @@
   <div class="work-foot" data-reveal><a class="ig-link" href="https://www.youtube.com/@NocturnarioCanal" target="_blank" rel="noopener">Ver más en Nocturnario (YouTube) <span aria-hidden="true">↗</span></a></div>
 </div></section>
 
-<section class="manifesto section-pad" id="manifiesto" aria-labelledby="manifiesto-title">
-  <canvas class="scene" data-scene="puerta" aria-hidden="true"></canvas><div class="boat" aria-hidden="true"><svg viewBox="0 0 40 100"><path d="M20 3C32 20 34 46 33 70c-1 18-6 27-13 27S8 88 7 70C6 46 8 20 20 3Z" fill="#6e2611"/><path d="M20 10c8 14 9.5 35 9 58-.5 15-4 21-9 21s-8.5-6-9-21c-.5-23 1-44 9-58Z" fill="#b04a22"/><path d="M11 40h18v3.5H11zM11 63h18v3.5H11z" fill="#5a1d0b"/><path d="M1 61 39 51" stroke="#2b1208" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="20" cy="74" rx="6.5" ry="5" fill="#16110c"/><circle cx="20" cy="69" r="4" fill="#2a1f17"/></svg></div><div class="scene-shade" aria-hidden="true"></div>
-  <span class="scene-label mono" aria-hidden="true">LH_PUERTA · render en vivo</span>
-  <div class="container">
-  <span class="eyebrow" id="manifiesto-title">Manifiesto</span>
-  <p class="manifesto-text" data-words>Cada historia tiene una <em>puerta.</em> Mi trabajo es encontrarla: el plano que respira, el corte que llega justo a tiempo, el color que te lleva a un lugar donde nunca has estado. El montaje no rellena una historia. <em>La revela.</em></p>
-  <p class="manifesto-sign mono">— LuminaHecho</p>
-</div></section>
+<section class="manifesto" id="manifiesto" aria-labelledby="manifiesto-title">
+  <div class="mf-stage">
+    <canvas class="scene" data-scene="titulos" aria-hidden="true"></canvas>
+    <span class="eyebrow mf-eyebrow" id="manifiesto-title">Manifiesto</span>
+    <p class="sr-only">Cada historia tiene una puerta. Mi trabajo es encontrarla: el plano que respira, el corte que llega justo a tiempo, el color que te lleva a un lugar donde nunca has estado. El montaje no rellena una historia. La revela. — LuminaHecho</p>
+    <div class="beat" aria-hidden="true"><span class="credit">I · El umbral</span><p class="big">Cada historia tiene una <em>puerta.</em></p></div>
+    <div class="beat" aria-hidden="true"><span class="credit">Mi trabajo es encontrarla</span><p class="big">el plano que <em>respira,</em></p></div>
+    <div class="beat beat-cut" aria-hidden="true"><span class="credit">II · El montaje</span><p class="big">el corte que llega <em>justo a tiempo,</em></p></div>
+    <div class="beat" aria-hidden="true"><span class="credit">III · La mirada</span><p class="big">el <em>color</em> que te lleva a un lugar donde nunca has estado.</p></div>
+    <div class="beat" aria-hidden="true"><span class="credit">El montaje no rellena una historia</span><p class="big huge"><em>La revela.</em></p><span class="mf-sign mono">— LuminaHecho</span></div>
+    <div class="mf-progress mono" aria-hidden="true"><span>Escena <b data-mf-index>01</b> / 05</span><i></i></div>
+  </div>
+</section>
 
 <section class="services section-pad" id="servicios" aria-labelledby="servicios-title"><div class="container">
   <div class="section-head" data-reveal><div><span class="eyebrow">Bin 02 — Servicios</span><h2 class="section-title" id="servicios-title">De los brutos a la <em>pieza final.</em></h2></div><p>Un proceso completo para crear vídeos que se ven bien, se entienden y mantienen la atención. Cada servicio es una pista de la misma línea de tiempo.</p></div>
@@ -552,7 +574,7 @@
 
 <dialog class="modal" id="modal-privacidad"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Política de privacidad</h2><p><strong>Texto provisional:</strong> sustituye los campos entre corchetes antes de publicar.</p><h3>Responsable</h3><p>[Nombre y apellidos o razón social], [NIF], [dirección profesional], contacto@luminahecho.app.</p><h3>Finalidad y legitimación</h3><p>Responder a consultas y preparar propuestas solicitadas. La base jurídica es tu consentimiento al enviar el formulario y, cuando proceda, la aplicación de medidas precontractuales.</p><h3>Conservación y destinatarios</h3><p>Los datos se conservarán el tiempo necesario para atender la consulta y las obligaciones aplicables. El servicio de alojamiento y formularios puede actuar como encargado del tratamiento.</p><h3>Vídeos incrustados</h3><p>Los vídeos se muestran con YouTube en su modo de privacidad mejorada (youtube-nocookie.com). Al reproducirse, YouTube puede tratar datos técnicos de tu navegador conforme a su propia política de privacidad.</p><h3>Derechos</h3><p>Puedes solicitar acceso, rectificación, supresión, limitación, oposición o portabilidad escribiendo al correo indicado. También puedes reclamar ante la AEPD.</p></article></dialog>
 <dialog class="modal" id="modal-legal"><article class="modal-card"><button class="icon-btn close" type="button" aria-label="Cerrar">×</button><h2>Aviso legal</h2><p><strong>Texto provisional:</strong> completa estos datos antes de publicar.</p><h3>Titular</h3><p>[Nombre y apellidos o razón social], [NIF], [domicilio profesional], contacto@luminahecho.app.</p><h3>Actividad</h3><p>Servicios profesionales de edición de vídeo, postproducción y diseño audiovisual.</p><h3>Propiedad intelectual</h3><p>Los contenidos propios, identidad visual y trabajos publicados pertenecen a sus titulares. No se autoriza su reutilización sin permiso.</p></article></dialog>
-<dialog class="modal" id="modal-video" aria-label="Reproductor de vídeo"><div class="video-card"><button class="icon-btn close" type="button" aria-label="Cerrar vídeo">×</button><iframe id="video-frame" title="Vídeo de LuminaHecho" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen src="about:blank"></iframe></div></dialog>
+<dialog class="modal" id="modal-video" aria-label="Reproductor de vídeo"><div class="video-card"><button class="icon-btn close" type="button" aria-label="Cerrar vídeo">×</button><iframe id="video-frame" title="Vídeo de LuminaHecho" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" src="about:blank"></iframe></div></dialog>
 
 <script>
 (function(){
@@ -668,9 +690,16 @@
   $$('.clip-link').forEach(a=>{const id=ytId(a.href);if(!id)return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();vFrame.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';vModal.showModal()})});
   vModal.addEventListener('close',()=>{vFrame.src='about:blank'});
 
-  // Manifiesto: las palabras se iluminan con el scroll
-  const mt=$('[data-words]'),words=[];
-  [...mt.childNodes].forEach(n=>{const hl=n.nodeType===1,frag=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){frag.append(t);return}const s=document.createElement('span');s.className='w'+(hl?' hl':'');s.textContent=t;words.push(s);frag.append(s)});n.replaceWith(frag)});
+  // Manifiesto: secuencia de títulos guiada por el scroll. Cada escena entra letra a letra desenfocada → nítida.
+  const mf=$('.manifesto'),beats=$$('.beat',mf),mfIdx=$('[data-mf-index]');
+  beats.forEach(b=>$$('.big',b).forEach(el=>{let i=0;const walk=n=>[...n.childNodes].forEach(c=>{if(c.nodeType!==3)return walk(c);const frag=document.createDocumentFragment();
+    c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w))return frag.append(' ');const ws=document.createElement('span');ws.className='wd';
+      [...w].forEach(ch=>{const x=document.createElement('span');x.className='ch';x.textContent=ch;x.style.setProperty('--i',i++);ws.append(x)});frag.append(ws)});c.replaceWith(frag)});walk(el)}));
+  let mfP=0,mfBeat=-1;
+  const mfUpdate=()=>{const r=mf.getBoundingClientRect(),span=Math.max(1,r.height-innerHeight);mfP=clamp(-r.top/span);
+    const k=r.top>innerHeight*.6?-1:Math.min(beats.length-1,Math.floor(mfP*beats.length*.9999));
+    if(k!==mfBeat){beats.forEach((b,i)=>{b.classList.toggle('is-on',i===k);b.classList.toggle('is-out',k>=0&&i<k)});mfBeat=k;if(k>=0)mfIdx.textContent=String(k+1).padStart(2,'0')}
+    mf.style.setProperty('--mfp',mfP.toFixed(4));mf.style.setProperty('--bar',clamp((innerHeight-r.top)/innerHeight).toFixed(3))};
 
   // Proceso y línea de tiempo
   const steps=$('[data-steps]'),stepItems=$$('.step',steps),header=$('.site-header'),navLinks=$$('.nav-links a');
@@ -684,8 +713,7 @@
     let active=0;starts.forEach((s,i)=>{if(y+vh*.4>=s)active=i});
     clips.forEach((c,i)=>c.classList.toggle('is-active',i===active));
     const id=secs[active].id;navLinks.forEach(a=>a.hash==='#'+id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current'));
-    const mr=mt.getBoundingClientRect(),mp=clamp((vh*.85-mr.top)/(mr.height+vh*.3)),lit=reduce?words.length:Math.round(mp*words.length);
-    words.forEach((w,i)=>w.classList.toggle('on',i<lit));
+    mfUpdate();
     const sr=steps.getBoundingClientRect(),sp=clamp((vh*.75-sr.top)/Math.max(sr.height,1));steps.style.setProperty('--progress',sp.toFixed(3));
     stepItems.forEach((s,i)=>s.classList.toggle('passed',sp>=i/(stepItems.length-1)-.02))};
   let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update()})}},{passive:true});
@@ -708,37 +736,26 @@ float fbm(vec2 p){float v=0.,a=.5;mat2 m=mat2(1.6,1.2,-1.2,1.6);for(int i=0;i<5;
 vec3 paint(vec3 c,float br){return floor(c*22.+br*.7)/22.;}
 float grain(float t){return (h(gl_FragCoord.xy+fract(t)*91.)-.5)*.045;}
 `;
-  // Mar visto desde arriba: espuma crema marmolada, trazos de pincel, haz de luz, puerta y estela.
-  const GLSL_SEA=GLSL_BASE+`uniform vec2 uDoor,uDir,uBoat;uniform float uDoorOn,uBoatOn,uBeamLen;
-void main(){vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y;float t=uT;
-vec2 q=p*vec2(2.4,3.6)+vec2(t*.012,t*.02);
-vec2 w=vec2(fbm(q*1.2+vec2(t*.05,0.)),fbm(q*1.2+vec2(3.1,7.7)-vec2(0.,t*.04)));
-float f=fbm(q*1.7+w*2.4);
-float br=.5*n(vec2(p.x*95.,p.y*26.)+w*7.)+.5*n(vec2(p.x*40.,p.y*11.)-w*3.);
-vec2 nd=vec2(-uDir.y,uDir.x);vec2 v=p-uDoor;float al=dot(v,uDir),pe=abs(dot(v,nd));
-float wd=.045+al*.36+(n(vec2(al*14.,t*.3))-.5)*.02;
-float beam=smoothstep(wd,wd-.045,pe)*smoothstep(-.005,.03,al)*(1.-smoothstep(uBeamLen*.55,uBeamLen,al));
-float foam=smoothstep(.55,.6,f+br*.09);
-float ridge=pow(1.-abs(sin(f*17.+t*.35)),9.);
-vec3 deep=mix(vec3(.018,.10,.112),vec3(.09,.018,.012),uMood),dark=mix(vec3(.04,.22,.235),vec3(.26,.05,.03),uMood),
-mid=mix(vec3(.09,.50,.50),vec3(.66,.16,.07),uMood),lit=mix(vec3(.38,.80,.75),vec3(.99,.45,.17),uMood),fo=mix(vec3(.96,.86,.66),vec3(1.,.84,.58),uMood);
-float base=clamp(f*.95+br*.22,0.,1.);
-vec3 sh=mix(deep,dark,smoothstep(.3,.8,base));sh=mix(sh,mix(dark,fo,.3),foam*.6);sh+=ridge*.03*fo;
-vec3 li=mix(mid,lit,smoothstep(.35,.72,base));li=mix(li,fo,foam*(.7+.3*br));li+=ridge*.1*fo;
-vec3 col=mix(sh,li,beam);
-vec2 bv=p-uBoat;float be=dot(bv,uDir),bp=dot(bv,nd);
-float wake=smoothstep(.012,0.,abs(abs(bp)-be*.3-.006))*smoothstep(0.,.015,be)*exp(-be*7.)*uBoatOn;
-col=mix(col,fo,clamp(wake*(.4+.6*br),0.,1.)*.8);
-if(uDoorOn>.5){vec2 d=p-uDoor;float dw=.05,dh=.21;
-float outer=step(abs(d.x),dw)*step(-.004,d.y)*step(d.y,dh);
-float inner=step(abs(d.x),dw-.009)*step(0.,d.y)*step(d.y,dh-.009);
-vec3 frame=mix(vec3(.38,.10,.05),vec3(.62,.2,.09),br);
-vec3 light=mix(fo*1.04,vec3(1.,.97,.88),smoothstep(0.,dh,d.y));
-col+=fo*.32*exp(-length(d*vec2(1.,.6)-vec2(0.,.05))*8.);
-col=mix(col,frame,outer);col=mix(col,light,inner);}
-col*=1.-.32*length(p*vec2(.55,1.));
-col=paint(col,br)+grain(t);
-gl_FragColor=vec4(col,1.);}`;
+  // Secuencia de títulos: curvas de nivel que rodean una puerta de luz, respiran, se cortan, se tiñen de tinta y acaban en un sol.
+  const GLSL_TITLES='#extension GL_OES_standard_derivatives : enable\n'+GLSL_BASE+`uniform float uP,uS;uniform vec2 uC;
+float door(vec2 p){p=(p-uC)/uS;float w=.1,top=.05,bot=-.2;if(p.y>top)return length(p-vec2(0.,top))-w;return max(abs(p.x)-w,bot-p.y);}
+void main(){vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y;float t=uT,P=uP;
+float a1=smoothstep(.02,.16,P),a2=smoothstep(.2,.3,P)*(1.-smoothstep(.36,.42,P)),cutT=smoothstep(.4,.42,P)*(1.-smoothstep(.5,.58,P)),ink=smoothstep(.58,.8,P),sun=smoothstep(.8,.96,P),gone=smoothstep(.79,.87,P);
+float band=floor(p.y*7.+.5);p.x+=cutT*(h(vec2(band,3.))-.5)*.22*step(.35,h(vec2(band,7.)));
+float dd=door(p),breath=1.+.06*sin(t*1.3)*(.35+a2*1.8);vec2 q=p*breath;
+vec2 w=vec2(fbm(q*1.3+vec2(t*.02,0.)),fbm(q*1.3+vec2(4.1,1.7)-vec2(0.,t*.025)));
+float f=fbm(q*1.5+w*.9)*1.25+.5*exp(-max(dd,0.)*5.)*a1;f=mix(f,length(p-uC)/uS*2.4-t*.03,sun*.9);
+float v=f*15.,fw=fwidth(v),dist=abs(fract(v+.5)-.5),ln=1.-smoothstep(0.,fw*1.3,dist),major=step(mod(floor(v+.5),5.),.5);
+vec3 bg=mix(vec3(.012,.055,.062),vec3(.07,.018,.012),uMood),lc=mix(vec3(.86,.8,.68),vec3(1.,.78,.6),uMood);
+vec3 col=bg+lc*ln*(.16+.22*major)*(.55+.45*a1);
+float id=smoothstep(.004,-.004,dd)*a1;col=mix(col,mix(vec3(1.,.93,.78),vec3(1.,.72,.42),ink),id*(1.-gone));col+=lc*.22*exp(-max(dd,0.)*13.)*a1*(1.-gone);
+float R=mix(0.,1.3,ink),m=1.-smoothstep(R*.55,R,length(p-uC-vec2(0.,-.05)*uS)+(fbm(p*4.+t*.12)-.5)*.35);
+float dn=smoothstep(.38,.72,fbm(p*3.2+vec2(t*.06,-t*.05)+w*1.5))*m*ink;
+vec3 inkC=mix(vec3(.94,.27,.12),vec3(.13,.71,.69),uMood),inkD=mix(vec3(.38,.05,.03),vec3(.03,.24,.25),uMood);
+col=mix(col,mix(inkD,inkC,dn),dn*.85);col+=inkC*ln*dn*.35;
+float sd=(length(p-uC)-.17*uS)/uS;float disc=smoothstep(.004,-.004,sd)*sun;vec3 sunC=mix(vec3(1.,.62,.2),vec3(1.,.42,.1),smoothstep(-.17,0.,sd));
+col=mix(col,sunC,disc);col+=vec3(1.,.5,.2)*.3*exp(-max(sd,0.)*7.)*sun;
+col*=1.-.38*length(p*vec2(.6,1.));col+=grain(t);gl_FragColor=vec4(col,1.);}`;
   // Sol entre muros: calima, trazos verticales, silueta y reflejo en suelo mojado.
   const GLSL_SUN=GLSL_BASE+`uniform float uGapX;
 const float HZ=-.2;
@@ -763,6 +780,7 @@ col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
   const makeScene=(canvas,frag,names)=>{
     let gl;try{gl=canvas.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'})}catch(e){}
     if(!gl)return null;
+    try{gl.getExtension('OES_standard_derivatives')}catch(e){}
     const sh=(type,src)=>{const o=gl.createShader(type);gl.shaderSource(o,src);gl.compileShader(o);return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:(console.warn(gl.getShaderInfoLog(o)),null)};
     const vs=sh(gl.VERTEX_SHADER,'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}'),fs=sh(gl.FRAGMENT_SHADER,frag);if(!vs||!fs)return null;
     const pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return null;gl.useProgram(pr);
@@ -773,18 +791,12 @@ col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
       resize(){const r=canvas.getBoundingClientRect();this.W=Math.max(1,r.width);this.H=Math.max(1,r.height);const k=Math.min(devicePixelRatio||1,1.5)*.6;canvas.width=Math.round(this.W*k);canvas.height=Math.round(this.H*k);gl.viewport(0,0,canvas.width,canvas.height);gl.uniform2f(u.uRes,canvas.width,canvas.height)},
       toP(x,y){return[(x-this.W/2)/this.H,(this.H/2-y)/this.H]}};
   };
-  const scenes=[],sceneEls={puerta:$('[data-scene="puerta"]'),sol:$('[data-scene="sol"]')},boat=$('.manifesto .boat');
-  const seaDir=(s,door,tx,ty)=>{const tp=s.toP(tx,ty),dx=tp[0]-door[0],dy=tp[1]-door[1],L=Math.hypot(dx,dy)||1;return[dx/L,dy/L,L]};
-  const ps=makeScene(sceneEls.puerta,GLSL_SEA,['uDoor','uDir','uBoat','uDoorOn','uBoatOn','uBeamLen']);
-  if(ps){ps.place=function(){const m=this.W<980,x=this.W*(m?.72:.76),y=this.H*(m?.2:.3);this.door=this.toP(x,y);this.dir=seaDir(this,this.door,this.W*(m?.25:.32),this.H*1.08);this.bw=Math.round(Math.min(46,Math.max(24,this.H*.05)))};
-    ps.frame=function(t){const g=this.gl,u=this.u,[dx,dy,L]=this.dir,cyc=(t%46)/46,s=L*(.62-.48*cyc),bx=this.door[0]+dx*s,by=this.door[1]+dy*s;
-      g.uniform2f(u.uDoor,...this.door);g.uniform2f(u.uDir,dx,dy);g.uniform1f(u.uBeamLen,L);g.uniform1f(u.uDoorOn,1);g.uniform1f(u.uBoatOn,1);g.uniform2f(u.uBoat,bx,by);
-      if(boat){const sx=bx*this.H+this.W/2,sy=this.H/2-by*this.H,ang=Math.atan2(-dx,-dy)*180/Math.PI,bob=Math.sin(t*1.3)*2.2,fade=Math.min(1,cyc*8,(1-cyc)*8);
-        boat.style.setProperty('--bw',this.bw+'px');boat.style.opacity=fade.toFixed(3);boat.style.transform=`translate(${(sx-this.bw/2).toFixed(1)}px,${(sy-this.bw*1.25).toFixed(1)}px) rotate(${(ang+bob).toFixed(2)}deg) scale(${(.75+.35*(1-cyc)).toFixed(3)})`}};
-    scenes.push(ps)}
+  const scenes=[],sceneEls={titulos:$('[data-scene="titulos"]'),sol:$('[data-scene="sol"]')};
+  const ts=makeScene(sceneEls.titulos,GLSL_TITLES,['uP','uC','uS']);
+  if(ts){ts.place=function(){const wide=this.W>980;this.c=wide?[this.W/this.H*.24,0]:[0,.19];this.sc=wide?1:Math.min(1,this.W/this.H*1.25)};
+    ts.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uP,mfP);g.uniform2f(u.uC,...this.c);g.uniform1f(u.uS,this.sc)};scenes.push(ts)}
   const ss=makeScene(sceneEls.sol,GLSL_SUN,['uGapX']);
   if(ss){ss.place=()=>{};ss.frame=function(){this.gl.uniform1f(this.u.uGapX,0)};scenes.push(ss)}
-  if(boat&&!ps)boat.remove();
   let moodV=root.dataset.mood==='ocaso'?1:0,lastDraw=0;
   const draw=(s,t)=>{s.gl.uniform1f(s.u.uT,t);s.gl.uniform1f(s.u.uMood,moodV);s.frame(t);s.gl.drawArrays(s.gl.TRIANGLES,0,3)};
   const placeScenes=()=>scenes.forEach(s=>{s.resize();s.place();if(reduce||!s.visible)draw(s,12)});

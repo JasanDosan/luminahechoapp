@@ -15,8 +15,9 @@ LUMINAHECHO — LISTA ANTES DE PUBLICAR
    el selector de ambiente Océano / Ocaso y la línea de tiempo inferior (se puede arrastrar).
 
 Qué hay de nuevo
-- Escenas pintadas en vivo (WebGL) con la textura de las ilustraciones: puerta de luz con
-  barca en el manifiesto y sol entre muros en contacto.
+- Manifiesto: secuencia de títulos guiada por el scroll (5 escenas) con curvas de nivel en vivo
+  (WebGL): puerta de luz, respiración, corte, tinta que se expande y un sol final.
+- Contacto: sol entre muros pintado en vivo (WebGL).
   Si un navegador no admite WebGL, se muestra un fondo de color equivalente.
 - Con "reducir movimiento" activado en el dispositivo, las animaciones se detienen.
 - Portada: monitor de programa con zoom infinito sobre dos cadenas de Midjourney (Zoom Out 2x),
