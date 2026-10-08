@@ -421,10 +421,10 @@
       <canvas class="ambient" width="32" height="40" aria-hidden="true"></canvas>
       <div class="monitor-frame">
         <div class="monitor-bar mono"><span>Programa · Origen</span><strong data-zoom-label>Sala de montaje</strong></div>
-        <div class="monitor-screen" role="img" aria-label="Zoom infinito que viaja desde una sala de montaje, a través de un monitor, un cuadro, una ventana y una puerta, hasta una barca en el mar, y después de una laguna a un sol"><canvas class="zoom-canvas" aria-hidden="true"></canvas></div>
+        <div class="monitor-screen" role="img" aria-label="Zoom infinito que viaja desde una sala de montaje, a través de un monitor, un cuadro, una ventana y una puerta, hasta una barca en el mar; después de una laguna a un sol, y de la luna a una puerta de luz"><canvas class="zoom-canvas" aria-hidden="true"></canvas></div>
         <div class="transport"><button class="play-btn" type="button" data-play aria-label="Pausar el zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="ic-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/><path class="ic-play" d="m8 5 11 7-11 7V5Z" style="display:none"/></svg></button><div class="mini-tl" data-mini-tl aria-hidden="true"><span class="mini-head"></span></div></div>
       </div>
-      <figcaption class="monitor-caption mono"><span>Zoom infinito · 14 planos</span><span>Arrastra para recorrerlo</span></figcaption>
+      <figcaption class="monitor-caption mono"><span>Zoom infinito · 17 planos</span><span>Arrastra para recorrerlo</span></figcaption>
     </figure>
   </div>
   <a class="scroll-cue mono" href="#trabajos" aria-label="Ir a trabajos">Desliza</a>
@@ -587,12 +587,13 @@
     amb=$('.ambient'),ax=amb.getContext('2d'),zLabel=$('[data-zoom-label]'),mini=$('[data-mini-tl]'),miniHead=$('.mini-head',mini),playBtn=$('[data-play]');
   const HALF=[.25,.25,.5],SEG=3.4,FADE=.45;
   const CHAINS=[
-    {id:'a',color:'var(--accent-2)',names:['Sala de montaje','Monitor','Estudio','Casa en el desierto','Ventana','Puerta en el mar','Travesía']},
-    {id:'b',color:'var(--accent)',names:['Laguna','Islote','Casa roja','Umbral','Acantilados','Arco','Ocaso']}
+    {id:'a',n:7,color:'var(--accent-2)',names:['Sala de montaje','Monitor','Estudio','Casa en el desierto','Ventana','Puerta en el mar','Travesía']},
+    {id:'b',n:7,color:'var(--accent)',names:['Laguna','Islote','Casa roja','Umbral','Acantilados','Arco','Ocaso']},
+    {id:'c',n:3,color:'var(--cream)',names:['Luna','Muelle','Cerradura de luz']}
   ];
   const zsize=Math.min(innerWidth,600)*(devicePixelRatio||1)>700?'l':'s';
   const zLoad=src=>new Promise((ok,ko)=>{const im=new Image();im.decoding='async';im.onload=()=>ok(im);im.onerror=ko;im.src=src});
-  CHAINS.forEach(c=>{c.ready=Promise.all([6,5,4,3,2,1,0].map(n=>zLoad(`./assets/zoom/${c.id}${n}-${zsize}.webp`))).then(ims=>{c.frames=ims;c.ok=true}).catch(()=>{})});
+  CHAINS.forEach(c=>{c.ready=Promise.all([...Array(c.n).keys()].reverse().map(n=>zLoad(`./assets/zoom/${c.id}${n}-${zsize}.webp`))).then(ims=>{c.frames=ims;c.ok=true}).catch(()=>{})});
   let vw=1,vh=1,seq=[],L=1,g=0,zPlaying=!reduce,zDrag=false,heroVisible=true,zStarted=false,zDirty=true;
   // Geometría de una cadena: rectángulos anidados, fotogramas clave de cámara y tramos de tiempo
   const zBuild=c=>{const lv=c.frames.map((img,i)=>({img,name:c.names[i]}));let r=[0,0,lv[0].img.naturalWidth,lv[0].img.naturalHeight];
@@ -630,7 +631,7 @@
   CHAINS[0].ready.then(()=>{if(!CHAINS[0].ok)return;zStarted=true;zResize();zLayout();zRender();zc.classList.add('on');
     let last=performance.now();const loop=now=>{requestAnimationFrame(loop);const dt=Math.min(.1,(now-last)/1000);last=now;
       if(zPlaying&&!zDrag&&heroVisible&&!document.hidden){g+=dt;zDirty=true}if(zDirty)zRender()};requestAnimationFrame(loop)});
-  CHAINS[1].ready.then(()=>{if(zStarted&&CHAINS[1].ok)zLayout()});
+  CHAINS.slice(1).forEach(c=>c.ready.then(()=>{if(zStarted&&c.ok)zLayout()}));
   addEventListener('resize',()=>{if(zStarted)zResize()});
   new IntersectionObserver(([e])=>{heroVisible=e.isIntersecting}).observe(hero);
 

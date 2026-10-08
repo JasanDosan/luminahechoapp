@@ -21,7 +21,7 @@ Qué hay de nuevo
 - Con "reducir movimiento" activado en el dispositivo, las animaciones se detienen.
 - Portada: monitor de programa con zoom infinito sobre dos cadenas de Midjourney (Zoom Out 2x),
   con luz ambiente, botón de pausa y mini línea de tiempo para recorrerlo arrastrando.
-  assets/zoom/a0…a6 (de dentro hacia fuera: barca → sala de montaje) y b0…b6 (sol → laguna),
+  assets/zoom/a0…a6 (barca → sala de montaje), b0…b6 (sol → laguna) y c0…c2 (cerradura → luna),
   cada una en -l (escritorio) y -s (móvil).
   Para añadir una cadena nueva: mismas reglas (cada imagen contiene a la anterior centrada a la mitad).
 - Tira de película: assets/obra/*.webp (720 px y -400). Portadas de los Shorts: assets/shorts/.
