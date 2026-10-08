@@ -218,7 +218,7 @@
     .mf-progress i{display:block;width:clamp(4rem,12vw,9rem);height:1px;background:var(--line);position:relative;overflow:hidden}
     .mf-progress i::after{content:"";position:absolute;inset:0;background:var(--accent-hi);transform:scaleX(var(--mfp,0));transform-origin:left}
     .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-    .no-js .manifesto{height:auto}.no-js .mf-stage{position:relative;height:auto;padding:8rem 1rem}.no-js .beat{position:relative;inset:auto;padding:1rem}.no-js .mf-progress{display:none}
+    .no-js .manifesto,.no-js .finale-track{height:auto}.no-js .mf-stage{position:relative;height:auto;padding:8rem 1rem}.no-js .beat{position:relative;inset:auto;padding:1rem}.no-js .mf-progress{display:none}
 
     /* Servicios como pistas de una línea de tiempo */
     .services{background:linear-gradient(180deg,var(--bg),var(--bg-2))}
@@ -244,17 +244,6 @@
     .sweep::before{content:"";position:absolute;top:-1.75rem;bottom:0;width:1px;background:var(--accent-hi);box-shadow:0 0 14px var(--accent-hi);animation:sweepLine 14s linear infinite}
     @keyframes sweepLine{from{left:0}to{left:100%}}
     .services-note{margin-top:var(--space-6);color:var(--faint)}
-
-    /* Proceso */
-    .steps{list-style:none;position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(var(--space-4),3vw,var(--space-10));padding-top:var(--space-12);--progress:0}
-    .steps::before,.steps::after{content:"";position:absolute;top:.55rem;left:0;right:0;height:1px;background:var(--line)}
-    .steps::after{background:linear-gradient(90deg,var(--accent-2),var(--accent-hi));transform:scaleX(var(--progress));transform-origin:left}
-    .step{position:relative}
-    .step-marker{position:absolute;top:calc(-1 * var(--space-12));left:0;width:1.1rem;height:1.1rem;transform:rotate(45deg);border:1px solid var(--accent-hi);background:var(--bg);z-index:1;transition:background-color .4s ease,box-shadow .4s ease}
-    .step.passed .step-marker{background:var(--accent-hi);box-shadow:0 0 18px var(--accent-hi)}
-    .step-tc{color:var(--accent-2)}
-    .step h3{font-family:var(--font-display);font-size:var(--text-xl);margin:var(--space-3) 0}
-    .step p{font-size:var(--text-sm);color:var(--muted)}
 
     /* Universo visual: tira de película */
     .universe{padding-bottom:clamp(var(--space-16),8vw,var(--space-24))}
@@ -283,11 +272,8 @@
     .tool:hover{border-color:var(--accent-2);color:var(--accent-2)}
 
     /* Contacto */
-    .contact{overflow:hidden;isolation:isolate;background:var(--deep)}
-    .finale{position:relative;height:clamp(30rem,86svh,54rem);overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 74%,#FF7628 0 13%,transparent 13.5%),linear-gradient(90deg,var(--deep) 0 36%,#7a1d0e 36% 64%,var(--deep) 64%)}
-    .finale .scene-shade{z-index:0;background:linear-gradient(180deg,var(--bg-2) 0%,transparent 22%,transparent 80%,var(--deep) 100%)}
-    .finale-copy{position:relative;z-index:1;padding-top:clamp(var(--space-16),9vw,var(--space-24));text-align:center;display:grid;justify-items:center;text-shadow:0 2px 30px rgba(0,0,0,.55)}
-    .finale-copy .section-title{margin-top:var(--space-5)}
+    .contact{overflow:clip;isolation:isolate;background:var(--deep)}
+    .finale-track{position:relative;height:320vh;background:var(--deep)}
     .contact-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(var(--space-8),7vw,var(--space-24));align-items:start}
     .contact-copy p{color:var(--muted);font-size:var(--text-lg)}
     .contact-links{display:grid;gap:var(--space-3);margin-top:var(--space-8);justify-items:start}
@@ -374,10 +360,6 @@
       .track{grid-template-columns:minmax(0,1fr)}
       .track-head{border-right:0;padding-bottom:var(--space-2)}
       .track-lane{min-height:4.5rem;margin:0 var(--space-6) var(--space-4)}
-      .steps{grid-template-columns:minmax(0,1fr);padding-top:0;padding-left:var(--space-12);gap:var(--space-10)}
-      .steps::before,.steps::after{top:0;bottom:0;left:.55rem;right:auto;width:1px;height:auto}
-      .steps::after{transform:scaleY(var(--progress));transform-origin:top;background:linear-gradient(180deg,var(--accent-2),var(--accent-hi))}
-      .step-marker{top:.2rem;left:calc(-1 * var(--space-12))}
       .about-media{max-width:28rem}
       .beat{align-content:end;justify-items:center;text-align:center;padding:0 1.25rem calc(var(--bar,0) * 11svh + 5.5rem)}
       .big{max-width:14ch}
@@ -416,7 +398,7 @@
   <a class="brand" href="#inicio" aria-label="LuminaHecho, inicio">
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9.5 27V14.5a6.5 6.5 0 0 1 13 0V27" stroke="currentColor" stroke-width="2.2"/><path d="M4 27h24" stroke="currentColor" stroke-width="2.2"/><circle class="sun" cx="16" cy="19.5" r="3"/></svg><span>LuminaHecho</span>
   </a>
-  <nav class="nav-links" id="nav-links" aria-label="Navegación principal"><a href="#trabajos">Trabajos</a><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a></nav>
+  <nav class="nav-links" id="nav-links" aria-label="Navegación principal"><a href="#trabajos">Trabajos</a><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a></nav>
   <div class="nav-actions">
     <button class="mood-toggle" type="button" data-mood-toggle aria-label="Cambiar ambiente de color"><span class="mood-dial" aria-hidden="true"></span><span class="mood-label">Océano</span></button>
     <a class="btn btn-primary nav-cta" href="#contacto">Hablemos</a>
@@ -460,7 +442,7 @@
   <div class="work-foot" data-reveal><a class="ig-link" href="https://www.youtube.com/@NocturnarioCanal" target="_blank" rel="noopener">Ver más en Nocturnario (YouTube) <span aria-hidden="true">↗</span></a></div>
 </div></section>
 
-<section class="manifesto" id="manifiesto" aria-labelledby="manifiesto-title">
+<section class="manifesto" id="manifiesto" aria-labelledby="manifiesto-title" data-seq>
   <div class="mf-stage">
     <canvas class="scene" data-scene="titulos" aria-hidden="true"></canvas>
     <span class="eyebrow mf-eyebrow" id="manifiesto-title">Manifiesto</span>
@@ -470,7 +452,7 @@
     <div class="beat beat-cut" aria-hidden="true"><span class="credit">II · El montaje</span><p class="big">el corte que llega <em>justo a tiempo,</em></p></div>
     <div class="beat" aria-hidden="true"><span class="credit">III · La mirada</span><p class="big">el <em>color</em> que te lleva a un lugar donde nunca has estado.</p></div>
     <div class="beat" aria-hidden="true"><span class="credit">El montaje no rellena una historia</span><p class="big huge"><em>La revela.</em></p><span class="mf-sign mono">— LuminaHecho</span></div>
-    <div class="mf-progress mono" aria-hidden="true"><span>Escena <b data-mf-index>01</b> / 05</span><i></i></div>
+    <div class="mf-progress mono" aria-hidden="true"><span>Escena <b data-seq-index>01</b> / 05</span><i></i></div>
   </div>
 </section>
 
@@ -495,18 +477,8 @@
   </div>
 </div></section>
 
-<section class="process section-pad" id="proceso" aria-labelledby="proceso-title"><div class="container">
-  <div class="section-head" data-reveal><div><span class="eyebrow">Bin 03 — Proceso</span><h2 class="section-title" id="proceso-title">Claro desde el <em>primer corte.</em></h2></div><p>Cuatro marcas en la línea de tiempo, de la primera conversación al master final.</p></div>
-  <ol class="steps" data-steps>
-    <li class="step" data-reveal><span class="step-marker" aria-hidden="true"></span><span class="step-tc mono">IN · 01 — Descubrir</span><h3>Brief</h3><p>Objetivo, audiencia, referencias, material disponible y formato de entrega.</p></li>
-    <li class="step" data-reveal><span class="step-marker" aria-hidden="true"></span><span class="step-tc mono">02 — Construir</span><h3>Primer corte</h3><p>La historia toma forma: estructura, selección, ritmo y dirección visual.</p></li>
-    <li class="step" data-reveal><span class="step-marker" aria-hidden="true"></span><span class="step-tc mono">03 — Afinar</span><h3>Revisión</h3><p>Feedback ordenado, ajustes concretos y una comunicación sin fricción.</p></li>
-    <li class="step" data-reveal><span class="step-marker" aria-hidden="true"></span><span class="step-tc mono">OUT · 04 — Entregar</span><h3>Master final</h3><p>Exportaciones optimizadas, formatos sociales y archivos listos para publicar.</p></li>
-  </ol>
-</div></section>
-
 <section class="universe" id="universo" aria-labelledby="universo-title">
-  <div class="container section-head" data-reveal style="padding-top:clamp(var(--space-16),8vw,var(--space-24))"><div><span class="eyebrow">Bin 04 — Universo visual</span><h2 class="section-title" id="universo-title">Agua, luz y <em>umbrales.</em></h2></div><p>El mismo imaginario que da forma a @luminah_echo: figuras solitarias, puertas sobre el mar y soles que parten muros.</p></div>
+  <div class="container section-head" data-reveal style="padding-top:clamp(var(--space-16),8vw,var(--space-24))"><div><span class="eyebrow">Bin 03 — Universo visual</span><h2 class="section-title" id="universo-title">Agua, luz y <em>umbrales.</em></h2></div><p>El mismo imaginario que da forma a @luminah_echo: figuras solitarias, puertas sobre el mar y soles que parten muros.</p></div>
   <div class="filmstrip" role="region" aria-label="Selección de ilustraciones del universo visual">
     <div class="film-track">
       <figure class="film-frame"><img src="./assets/obra/camera-lens-3-400.webp" srcset="./assets/obra/camera-lens-3-400.webp 400w, ./assets/obra/camera-lens-3.webp 720w" sizes="21rem" alt="Gran objetivo de cámara flotando sobre el mar al atardecer" width="400" height="500" loading="lazy" decoding="async"></figure>
@@ -544,14 +516,20 @@
 
 <section class="about section-pad" id="sobre-mi" aria-labelledby="sobre-title"><div class="container about-grid">
   <figure class="about-media" data-mask><img src="./assets/art-barca-casa.webp" alt="Hombre sentado en una barca naranja junto a una casa roja, sobre aguas turquesas" width="960" height="1200" loading="lazy" decoding="async"></figure>
-  <div class="about-copy" data-reveal><span class="eyebrow">Bin 05 — Sobre mí</span><h2 class="section-title" id="sobre-title">Detrás de cada corte, <em>una mirada.</em></h2><p>Soy Javier, editor de vídeo y creador de LuminaHecho. Trabajo cada pieza desde la narrativa y el diseño para encontrar el tono, el ritmo y la forma que mejor sirven al mensaje.</p><p>En @luminah_echo exploro un universo propio de agua, luz y umbrales. Esa misma sensibilidad es la que llevo a cada proyecto de edición.</p><div class="tools"><span class="tool">DaVinci Resolve Studio</span><span class="tool">Edición</span><span class="tool">Motion graphics</span><span class="tool">Diseño sonoro</span><span class="tool">Contenido vertical</span></div></div>
+  <div class="about-copy" data-reveal><span class="eyebrow">Bin 04 — Sobre mí</span><h2 class="section-title" id="sobre-title">Detrás de cada corte, <em>una mirada.</em></h2><p>Soy Javier, editor de vídeo y creador de LuminaHecho. Trabajo cada pieza desde la narrativa y el diseño para encontrar el tono, el ritmo y la forma que mejor sirven al mensaje.</p><p>En @luminah_echo exploro un universo propio de agua, luz y umbrales. Esa misma sensibilidad es la que llevo a cada proyecto de edición.</p><div class="tools"><span class="tool">DaVinci Resolve Studio</span><span class="tool">Edición</span><span class="tool">Motion graphics</span><span class="tool">Diseño sonoro</span><span class="tool">Contenido vertical</span></div></div>
 </div></section>
 
 <section class="contact" id="contacto" aria-labelledby="contacto-title">
-  <div class="finale">
-    <canvas class="scene" data-scene="sol" aria-hidden="true"></canvas><div class="scene-shade" aria-hidden="true"></div>
-    <div class="container finale-copy" data-reveal><span class="eyebrow">Bin 06 — Contacto</span><h2 class="section-title" id="contacto-title">¿Qué historia quieres <em>contar?</em></h2></div>
-    <span class="scene-label mono" aria-hidden="true">LH_OCASO · render en vivo</span>
+  <div class="finale-track" data-seq>
+    <div class="mf-stage">
+      <canvas class="scene" data-scene="sol" aria-hidden="true"></canvas>
+      <span class="eyebrow mf-eyebrow">Bin 05 — Contacto</span>
+      <h2 class="sr-only" id="contacto-title">¿Qué historia quieres contar?</h2>
+      <div class="beat" aria-hidden="true"><span class="credit">IV · El encuentro</span><p class="big">Toda historia empieza con una <em>conversación.</em></p></div>
+      <div class="beat" aria-hidden="true"><span class="credit">Tú traes el material</span><p class="big">yo encuentro la <em>puerta.</em></p></div>
+      <div class="beat" aria-hidden="true"><span class="credit">El siguiente plano es tuyo</span><p class="big">¿Qué historia quieres <em>contar?</em></p><span class="mf-sign mono">Escríbeme aquí abajo ↓</span></div>
+      <div class="mf-progress mono" aria-hidden="true"><span>Escena <b data-seq-index>01</b> / 03</span><i></i></div>
+    </div>
   </div>
   <div class="container contact-grid section-pad">
   <div class="contact-copy" data-reveal><p>Cuéntame qué estás creando, en qué punto se encuentra y qué necesitas. Responderé con los siguientes pasos.</p><div class="contact-links"><a class="email-link" href="mailto:contacto@luminahecho.app">contacto@luminahecho.app</a><a class="ig-link" href="https://www.instagram.com/luminah_echo/" target="_blank" rel="noopener">@luminah_echo <span aria-hidden="true">↗</span></a></div></div>
@@ -567,7 +545,7 @@
 <nav class="timeline" aria-label="Línea de tiempo de la página">
   <span class="tl-tc" aria-hidden="true">00:00:00:00</span>
   <div class="tl-track">
-    <a class="tl-clip" href="#inicio"><span>Inicio</span></a><a class="tl-clip" href="#trabajos"><span>Trabajos</span></a><a class="tl-clip" href="#manifiesto"><span>Manifiesto</span></a><a class="tl-clip" href="#servicios"><span>Servicios</span></a><a class="tl-clip" href="#proceso"><span>Proceso</span></a><a class="tl-clip" href="#universo"><span>Universo</span></a><a class="tl-clip" href="#sobre-mi"><span>Sobre mí</span></a><a class="tl-clip" href="#contacto"><span>Contacto</span></a>
+    <a class="tl-clip" href="#inicio"><span>Inicio</span></a><a class="tl-clip" href="#trabajos"><span>Trabajos</span></a><a class="tl-clip" href="#manifiesto"><span>Manifiesto</span></a><a class="tl-clip" href="#servicios"><span>Servicios</span></a><a class="tl-clip" href="#universo"><span>Universo</span></a><a class="tl-clip" href="#sobre-mi"><span>Sobre mí</span></a><a class="tl-clip" href="#contacto"><span>Contacto</span></a>
     <span class="tl-playhead" aria-hidden="true"></span>
   </div>
 </nav>
@@ -690,19 +668,20 @@
   $$('.clip-link').forEach(a=>{const id=ytId(a.href);if(!id)return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();vFrame.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';vModal.showModal()})});
   vModal.addEventListener('close',()=>{vFrame.src='about:blank'});
 
-  // Manifiesto: secuencia de títulos guiada por el scroll. Cada escena entra letra a letra desenfocada → nítida.
-  const mf=$('.manifesto'),beats=$$('.beat',mf),mfIdx=$('[data-mf-index]');
-  beats.forEach(b=>$$('.big',b).forEach(el=>{let i=0;const walk=n=>[...n.childNodes].forEach(c=>{if(c.nodeType!==3)return walk(c);const frag=document.createDocumentFragment();
+  // Secuencias de títulos guiadas por el scroll (manifiesto y contacto): la escena queda fija mientras se hace scroll
+  // y cada frase entra letra a letra, de desenfocada a nítida.
+  const splitChars=el=>{let i=0;const walk=n=>[...n.childNodes].forEach(c=>{if(c.nodeType!==3)return walk(c);const frag=document.createDocumentFragment();
     c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w))return frag.append(' ');const ws=document.createElement('span');ws.className='wd';
-      [...w].forEach(ch=>{const x=document.createElement('span');x.className='ch';x.textContent=ch;x.style.setProperty('--i',i++);ws.append(x)});frag.append(ws)});c.replaceWith(frag)});walk(el)}));
-  let mfP=0,mfBeat=-1;
-  const mfUpdate=()=>{const r=mf.getBoundingClientRect(),span=Math.max(1,r.height-innerHeight);mfP=clamp(-r.top/span);
-    const k=r.top>innerHeight*.6?-1:Math.min(beats.length-1,Math.floor(mfP*beats.length*.9999));
-    if(k!==mfBeat){beats.forEach((b,i)=>{b.classList.toggle('is-on',i===k);b.classList.toggle('is-out',k>=0&&i<k)});mfBeat=k;if(k>=0)mfIdx.textContent=String(k+1).padStart(2,'0')}
-    mf.style.setProperty('--mfp',mfP.toFixed(4));mf.style.setProperty('--bar',clamp((innerHeight-r.top)/innerHeight).toFixed(3))};
+      [...w].forEach(ch=>{const x=document.createElement('span');x.className='ch';x.textContent=ch;x.style.setProperty('--i',i++);ws.append(x)});frag.append(ws)});c.replaceWith(frag)});walk(el)};
+  const SEQS=$$('[data-seq]').map(el=>{const beats=$$('.beat',el);beats.forEach(b=>$$('.big',b).forEach(splitChars));return{el,beats,idx:$('[data-seq-index]',el),p:0,k:-1}});
+  const seqUpdate=()=>SEQS.forEach(q=>{const r=q.el.getBoundingClientRect(),span=Math.max(1,r.height-innerHeight);q.p=clamp(-r.top/span);
+    const k=r.top>innerHeight*.6?-1:Math.min(q.beats.length-1,Math.floor(q.p*q.beats.length*.9999));
+    if(k!==q.k){q.beats.forEach((b,i)=>{b.classList.toggle('is-on',i===k);b.classList.toggle('is-out',k>=0&&i<k)});q.k=k;if(k>=0&&q.idx)q.idx.textContent=String(k+1).padStart(2,'0')}
+    q.el.style.setProperty('--mfp',q.p.toFixed(4));q.el.style.setProperty('--bar',clamp((innerHeight-r.top)/innerHeight).toFixed(3))});
+  const seqP=sel=>{const q=SEQS.find(x=>x.el.matches(sel));return q?q.p:0};
 
-  // Proceso y línea de tiempo
-  const steps=$('[data-steps]'),stepItems=$$('.step',steps),header=$('.site-header'),navLinks=$$('.nav-links a');
+  // Línea de tiempo
+  const header=$('.site-header'),navLinks=$$('.nav-links a');
   const tlTc=$('.tl-tc'),track=$('.tl-track'),head=$('.tl-playhead'),clips=$$('.tl-clip'),secs=clips.map(c=>document.getElementById(c.hash.slice(1)));
   let max=1,starts=[];
   const layout=()=>{max=Math.max(1,root.scrollHeight-innerHeight);const focus=innerHeight*.4;starts=secs.map(s=>s.getBoundingClientRect().top+scrollY);
@@ -713,9 +692,8 @@
     let active=0;starts.forEach((s,i)=>{if(y+vh*.4>=s)active=i});
     clips.forEach((c,i)=>c.classList.toggle('is-active',i===active));
     const id=secs[active].id;navLinks.forEach(a=>a.hash==='#'+id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current'));
-    mfUpdate();
-    const sr=steps.getBoundingClientRect(),sp=clamp((vh*.75-sr.top)/Math.max(sr.height,1));steps.style.setProperty('--progress',sp.toFixed(3));
-    stepItems.forEach((s,i)=>s.classList.toggle('passed',sp>=i/(stepItems.length-1)-.02))};
+    seqUpdate();
+  };
   let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update()})}},{passive:true});
   addEventListener('resize',layout);addEventListener('load',layout);new ResizeObserver(layout).observe(document.body);layout();
 
@@ -757,25 +735,27 @@ float sd=(length(p-uC)-.17*uS)/uS;float disc=smoothstep(.004,-.004,sd)*sun;vec3 
 col=mix(col,sunC,disc);col+=vec3(1.,.5,.2)*.3*exp(-max(sd,0.)*7.)*sun;
 col*=1.-.38*length(p*vec2(.6,1.));col+=grain(t);gl_FragColor=vec4(col,1.);}`;
   // Sol entre muros: calima, trazos verticales, silueta y reflejo en suelo mojado.
-  const GLSL_SUN=GLSL_BASE+`uniform float uGapX;
+  const GLSL_SUN=GLSL_BASE+`uniform float uGapX,uP,uZ;uniform vec2 uOff;
 const float HZ=-.2;
-vec3 above(vec2 p,float t){float R=.2;vec2 sc=vec2(uGapX,HZ+.12+.012*sin(t*.25));
+vec3 above(vec2 p,float t){float R=.2;vec2 sc=vec2(uGapX,mix(HZ-.27,HZ+.12,smoothstep(.12,.7,uP))+.012*sin(t*.25));
 vec2 hp=p+vec2((fbm(p*7.+vec2(0.,-t*.5))-.5)*.016,0.);float d=length(hp-sc);
 vec3 sky=mix(mix(vec3(.03,.15,.17),vec3(.42,.07,.04),uMood),mix(vec3(.62,.24,.11),vec3(.92,.32,.1),uMood),exp(-max(d-R,0.)*3.2));
 vec3 sun=mix(vec3(1.,.68,.24),vec3(1.,.42,.09),smoothstep(0.,R,d)*.85+.15*n(hp*28.));
 vec3 c=mix(sky,sun,smoothstep(R+.003,R-.003,d));c+=vec3(1.,.45,.12)*.24*exp(-max(d-R,0.)*10.);
-float wx=abs(p.x-uGapX)-.16;float str=.55*n(vec2(p.x*110.,p.y*4.))+.45*n(vec2(p.x*28.,p.y*1.6+3.));
+float wx=abs(p.x-uGapX)-mix(.012,.16,smoothstep(0.,.45,uP));float str=.55*n(vec2(p.x*110.,p.y*4.))+.45*n(vec2(p.x*28.,p.y*1.6+3.));
 vec3 wall=mix(mix(vec3(.02,.10,.11),vec3(.19,.035,.022),uMood),mix(vec3(.05,.25,.26),vec3(.47,.1,.05),uMood),str);
 wall*=.65+.35*smoothstep(-.5,.5,p.y);wall+=vec3(1.,.42,.12)*.32*exp(-wx*15.);
 return mix(c,wall,smoothstep(0.,.003,wx));}
 float figure(vec2 q,float e){float hw=mix(.016,.0085,clamp(q.y/.07,0.,1.));return smoothstep(e,0.,abs(q.x)-hw)*smoothstep(-e,0.,q.y)*smoothstep(.072+e,.072,q.y);}
-void main(){vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y;float t=uT;float br=n(vec2(p.x*80.,p.y*20.));vec3 col;
+void main(){vec2 p=((gl_FragCoord.xy-.5*uRes)/uRes.y-uOff)/uZ;float t=uT;float br=n(vec2(p.x*80.,p.y*20.));vec3 col;
 if(p.y>HZ){col=above(p,t);}else{float dy=HZ-p.y;float rip=(n(vec2(p.x*4.,dy*70.-t*.8))-.5)*.05*(.3+dy*4.);
 col=above(vec2(p.x+rip,HZ+dy*1.4),t)*max(.12,.55-dy*.7);col+=vec3(1.,.5,.2)*.05*n(vec2(p.x*60.,dy*200.-t));}
 vec2 fp=p-vec2(uGapX,HZ);float e=2./uRes.y;
 float fig=max(figure(fp,e),smoothstep(.0105+e,.0105,length(fp-vec2(0.,.084))));
 float figR=figure(vec2(fp.x+(n(vec2(fp.y*90.,t*2.))-.5)*.008,-fp.y),e*2.);
-col=mix(col,vec3(.04,.01,.008),fig);col=mix(col,col*.3,figR*.75);
+float fa=smoothstep(.4,.62,uP);col=mix(col,vec3(.04,.01,.008),fig*fa);col=mix(col,col*.3,figR*.75*fa);
+vec2 sv=p-vec2(uGapX,HZ+.12);float rays=pow(n(vec2(atan(sv.y,sv.x)*7.,t*.15)),4.)*exp(-length(sv)*2.2)*smoothstep(.7,1.,uP)*step(HZ,p.y);
+col+=vec3(1.,.55,.2)*rays*.7;
 col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
   const makeScene=(canvas,frag,names)=>{
     let gl;try{gl=canvas.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'})}catch(e){}
@@ -794,9 +774,10 @@ col=paint(col,br)+grain(t);gl_FragColor=vec4(col,1.);}`;
   const scenes=[],sceneEls={titulos:$('[data-scene="titulos"]'),sol:$('[data-scene="sol"]')};
   const ts=makeScene(sceneEls.titulos,GLSL_TITLES,['uP','uC','uS']);
   if(ts){ts.place=function(){const wide=this.W>980;this.c=wide?[this.W/this.H*.24,0]:[0,.19];this.sc=wide?1:Math.min(1,this.W/this.H*1.25)};
-    ts.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uP,mfP);g.uniform2f(u.uC,...this.c);g.uniform1f(u.uS,this.sc)};scenes.push(ts)}
-  const ss=makeScene(sceneEls.sol,GLSL_SUN,['uGapX']);
-  if(ss){ss.place=()=>{};ss.frame=function(){this.gl.uniform1f(this.u.uGapX,0)};scenes.push(ss)}
+    ts.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uP,seqP('.manifesto'));g.uniform2f(u.uC,...this.c);g.uniform1f(u.uS,this.sc)};scenes.push(ts)}
+  const ss=makeScene(sceneEls.sol,GLSL_SUN,['uGapX','uP','uZ','uOff']);
+  if(ss){ss.place=function(){const narrow=this.W/this.H<.9;this.z=narrow?Math.min(1,this.W/this.H*1.6):1;this.off=narrow?[0,.12]:[0,0]};
+    ss.frame=function(){const g=this.gl,u=this.u;g.uniform1f(u.uGapX,0);g.uniform1f(u.uP,seqP('.finale-track'));g.uniform1f(u.uZ,this.z);g.uniform2f(u.uOff,...this.off)};scenes.push(ss)}
   let moodV=root.dataset.mood==='ocaso'?1:0,lastDraw=0;
   const draw=(s,t)=>{s.gl.uniform1f(s.u.uT,t);s.gl.uniform1f(s.u.uMood,moodV);s.frame(t);s.gl.drawArrays(s.gl.TRIANGLES,0,3)};
   const placeScenes=()=>scenes.forEach(s=>{s.resize();s.place();if(reduce||!s.visible)draw(s,12)});

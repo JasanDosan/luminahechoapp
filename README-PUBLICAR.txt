@@ -17,7 +17,8 @@ LUMINAHECHO — LISTA ANTES DE PUBLICAR
 Qué hay de nuevo
 - Manifiesto: secuencia de títulos guiada por el scroll (5 escenas) con curvas de nivel en vivo
   (WebGL): puerta de luz, respiración, corte, tinta que se expande y un sol final.
-- Contacto: sol entre muros pintado en vivo (WebGL).
+- Contacto: secuencia de títulos (3 escenas) en la que los muros se abren, sale el sol y aparece
+  la figura, antes del formulario. La sección Proceso se ha eliminado.
   Si un navegador no admite WebGL, se muestra un fondo de color equivalente.
 - Con "reducir movimiento" activado en el dispositivo, las animaciones se detienen.
 - Portada: monitor de programa con zoom infinito sobre dos cadenas de Midjourney (Zoom Out 2x),
