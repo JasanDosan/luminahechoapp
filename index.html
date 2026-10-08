@@ -181,7 +181,7 @@
     .clip-link:hover .clip-play,.clip-link:focus-visible .clip-play{transform:scale(1);opacity:1}
     .clip-video{position:absolute;inset:0;z-index:1;overflow:hidden;opacity:0;transition:opacity .7s ease;pointer-events:none;background:#000}
     .clip-video.on{opacity:1}
-    .clip-video iframe{position:absolute;top:50%;left:50%;width:100%;height:100%;border:0;transform:translate(-50%,-50%) scale(1.16)}
+    .clip-video iframe{position:absolute;top:50%;left:50%;width:720px;height:1280px;max-width:none;border:0;transform:translate(-50%,-50%) scale(var(--k,.3))}
     .clip-sound{position:absolute;left:var(--space-3);bottom:var(--space-3);z-index:2;display:flex;align-items:center;gap:.4rem;padding:.3rem .55rem;border-radius:var(--radius-full);background:rgba(4,20,23,.7);backdrop-filter:blur(6px);color:#F5EEE2;opacity:0;transform:translateY(.4rem);transition:opacity .5s ease,transform .5s var(--ease)}
     .clip-video.on~.clip-sound{opacity:1;transform:none}
     .clip-media:has(.clip-video.on) .clip-play{opacity:0!important}
@@ -636,35 +636,37 @@
   addEventListener('resize',()=>{if(zStarted)zResize()});
   new IntersectionObserver(([e])=>{heroVisible=e.isIntersecting}).observe(hero);
 
-  // Trabajos: vista previa en silencio del Short (YouTube en modo privacidad) y reproductor con sonido al hacer clic.
-  // Solo se reproduce uno a la vez: en escritorio el primero visible o el que esté bajo el cursor; en móvil el centrado.
+  // Trabajos: los Shorts visibles se reproducen en silencio dentro de su tarjeta (YouTube en modo privacidad).
+  // Cada reproductor se carga a 720×1280 para que YouTube no use su interfaz compacta (pausa, anterior/siguiente)
+  // y se escala recortando los bordes, donde YouTube pone título, logotipo y etiquetas. Solo se muestra cuando
+  // YouTube confirma que se está reproduciendo; si falla, la tarjeta conserva su portada.
   const ytId=u=>(u.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/)||[])[1];
   const previews=$$('.clip-link').map(a=>({a,media:$('.clip-media',a),box:$('.clip-video',a),id:ytId(a.href)})).filter(p=>p.id&&p.box);
-  let current=null,hovered=null,hoverT=0;const seen=new Set();
-  const stopPreview=p=>{if(!p)return;if(current===p)current=null;p.media.classList.remove('is-playing');p.box.classList.remove('on');
-    setTimeout(()=>{if(current!==p)p.box.textContent=''},700)};
-  const startPreview=p=>{if(current===p)return;stopPreview(current);current=p;p.media.classList.add('is-playing');
-    if(p.box.firstChild){p.box.classList.add('on');return}
-    const f=document.createElement('iframe');f.title='';f.tabIndex=-1;f.allow='autoplay; encrypted-media';
-    f.src=`https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
-    // Pide a YouTube que informe del estado; el vídeo solo se muestra cuando confirma que se está reproduciendo
-    f.addEventListener('load',()=>{const ping=()=>f.contentWindow&&f.contentWindow.postMessage(JSON.stringify({event:'listening',id:p.id,channel:'widget'}),'*');ping();setTimeout(ping,600)});p.box.append(f)};
+  const CROP=1.3,fit=p=>p.box.style.setProperty('--k',(p.box.clientWidth*CROP/720).toFixed(4));
+  let queue=Promise.resolve();
+  const stopPreview=p=>{p.on=false;clearTimeout(p.showT);p.box.classList.remove('on');setTimeout(()=>{if(!p.on)p.box.textContent=''},700)};
+  const startPreview=p=>{if(p.on||p.failed)return;p.on=true;fit(p);
+    // Se cargan de uno en uno, con una pequeña pausa, para no bloquear la página
+    queue=queue.then(()=>new Promise(done=>{if(!p.on||p.box.firstChild)return done();
+      const f=document.createElement('iframe');f.title='';f.tabIndex=-1;f.allow='autoplay; encrypted-media';
+      f.src=`https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1&mute=1&loop=1&playlist=${p.id}&controls=0&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+      f.addEventListener('load',()=>{const ping=()=>f.contentWindow&&f.contentWindow.postMessage(JSON.stringify({event:'listening',id:p.id,channel:'widget'}),'*');ping();setTimeout(ping,600);setTimeout(done,350)});
+      p.box.append(f)}))};
   addEventListener('message',e=>{if(!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin))return;let d;try{d=typeof e.data==='string'?JSON.parse(e.data):e.data}catch(err){return}
     const p=previews.find(x=>x.box.firstChild&&x.box.firstChild.contentWindow===e.source);if(!p||!d)return;
     const st=d.info&&typeof d.info==='object'?d.info.playerState:(d.event==='onStateChange'?d.info:undefined);
-    if(st===1&&current===p)p.box.classList.add('on');
-    if(d.event==='onError'){p.failed=true;p.media.classList.remove('is-playing');p.box.classList.remove('on');p.box.textContent='';if(current===p)current=null}});
-  const pick=()=>{const p=(hovered&&!hovered.failed&&hovered)||previews.find(x=>seen.has(x)&&!x.failed);p?startPreview(p):stopPreview(current)};
+    // Espera a que YouTube oculte su rótulo inicial antes de mostrar el vídeo
+    if(st===1&&p.on&&!p.box.classList.contains('on')&&!p.showT)p.showT=setTimeout(()=>{p.showT=0;if(p.on)p.box.classList.add('on')},2200);
+    if(d.event==='onError'){p.failed=true;stopPreview(p)}});
   if(!reduce&&previews.length){
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{const p=previews.find(x=>x.media===e.target);e.isIntersecting?seen.add(p):seen.delete(p)});pick()},{threshold:.75});
-    previews.forEach(p=>{io.observe(p.media);
-      p.a.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;hovered=p;clearTimeout(hoverT);hoverT=setTimeout(pick,180)});
-      p.a.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;if(hovered===p)hovered=null;clearTimeout(hoverT);hoverT=setTimeout(pick,400)})});
-    document.addEventListener('visibilitychange',()=>{document.hidden?stopPreview(current):pick()});
+    const io=new IntersectionObserver(es=>es.forEach(e=>{const p=previews.find(x=>x.media===e.target);e.isIntersecting?startPreview(p):stopPreview(p)}),{threshold:.5});
+    previews.forEach(p=>io.observe(p.media));
+    addEventListener('resize',()=>previews.forEach(fit));
+    document.addEventListener('visibilitychange',()=>previews.forEach(p=>{if(document.hidden&&p.on){p.hid=true;stopPreview(p)}else if(!document.hidden&&p.hid){p.hid=false;startPreview(p)}}));
   }
   const vModal=$('#modal-video'),vFrame=$('#video-frame');
-  $$('.clip-link').forEach(a=>{const id=ytId(a.href);if(!id)return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();stopPreview(current);vFrame.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';vModal.showModal()})});
-  vModal.addEventListener('close',()=>{vFrame.src='about:blank';if(!reduce)pick()});
+  $$('.clip-link').forEach(a=>{const id=ytId(a.href);if(!id)return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();vFrame.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';vModal.showModal()})});
+  vModal.addEventListener('close',()=>{vFrame.src='about:blank'});
 
   // Manifiesto: las palabras se iluminan con el scroll
   const mt=$('[data-words]'),words=[];
